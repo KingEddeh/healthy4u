@@ -32,7 +32,22 @@ class PatientMedicalRecord(models.Model):
     blood_type = models.CharField(max_length=5, blank=True, help_text=_('Patient\'s blood type.'))
     height_cm = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, help_text=_('Patient\'s height in centimeters.'))
     weight_kg = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, help_text=_('Patient\'s weight in kilograms.'))
-
+    created_by = models.ForeignKey(
+        CustomUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='medical_records_created',
+        help_text=_('The user who created this medical record.')
+    )
+    updated_by = models.ForeignKey(
+        CustomUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='medical_records_updated',
+        help_text=_('The last user who updated this medical record.')
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
