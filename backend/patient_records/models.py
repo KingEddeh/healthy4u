@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
 
-from users.models import UserProfile
+from users.models import CustomUser
 
 class PatientMedicalRecord(models.Model):
     """
@@ -11,7 +11,7 @@ class PatientMedicalRecord(models.Model):
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patient = models.OneToOneField(
-        UserProfile,
+        CustomUser,
         on_delete=models.CASCADE,
         limit_choices_to={'user_type': 'patient'},
         related_name='medical_record',

@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
 
-from users.models import UserProfile
+from users.models import CustomUser
 from institutions.models import HealthcareInstitution
 
 class Appointment(models.Model):
@@ -11,7 +11,7 @@ class Appointment(models.Model):
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patient = models.ForeignKey(
-        UserProfile,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='appointments_as_patient',
         limit_choices_to={'user_type': 'patient'},
@@ -24,7 +24,7 @@ class Appointment(models.Model):
         help_text=_('The healthcare institution where the appointment is scheduled.')
     )
     staff = models.ForeignKey(
-        UserProfile,
+        CustomUser,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
