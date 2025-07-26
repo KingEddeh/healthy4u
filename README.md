@@ -14,5 +14,5 @@ Healthy4U Prototype website for Scholar's Technopreneurship Training Program DOS
 
 #### Frontend
 1. from root project folder, do 'cd frontend'
-2. 'npm install'
-3. 'npm run dev'
+2. 'npm install' to install dependencies
+3. 'npx quasar dev' to run quasar SPA
