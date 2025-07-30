@@ -18,10 +18,25 @@
         label="Go Home"
         no-caps
       />
+      <q-btn
+        class="q-mt-xl q-ml-md"
+        color="white"
+        text-color="blue"
+        unelevated
+        label="Go Back"
+        no-caps
+        @click="goBack"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-//
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+function goBack() {
+  router.back();
+}
 </script>
