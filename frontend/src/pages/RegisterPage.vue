@@ -98,7 +98,7 @@
                     v-model="formData.medicalRecord.date_of_birth"
                     label="Date of Birth"
                     mask="date"
-                    :rules="[val => !val || val === 'date' || 'Invalid date']"
+                    :rules="[val => !val || /^\d{4}[-/]\d{2}[-/]\d{2}$/.test(val) || 'Invalid date']"
                   >
                     <template v-slot:append>
                       <q-icon name="event" class="cursor-pointer">
