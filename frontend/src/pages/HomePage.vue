@@ -3,8 +3,23 @@
     <!-- Row 1: Greeting -->
     <div class="row justify-center q-mb-lg">
       <div class="col-12 col-md-8 text-center">
-        <h4 class="q-mt-sm q-mb-none text-weight-bold">Good Morning, User!</h4>
+        <h4 class="q-mt-sm q-mb-none text-weight-bold">
+          Good {{ greeting }}, {{ currentUser?.first_name || 'User' }}!
+        </h4>
         <p class="text-grey-7">Here's your dashboard for today.</p>
+        
+        <!-- Logout button for logged-in users -->
+        <div v-if="currentUser" class="q-mt-md">
+          <q-btn
+            flat
+            dense
+            color="red"
+            icon="logout"
+            label="Sign Out"
+            @click="handleLogout"
+            size="sm"
+          />
+        </div>
       </div>
     </div>
 
@@ -64,7 +79,69 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onMounted } from 'vue';
+import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
+import type { UserPayload } from '../components/data';
 
+// Initialize router and Quasar
+const router = useRouter();
+const $q = useQuasar();
+
+// Current user data
+const currentUser = ref<UserPayload | null>(null);
+
+// Computed greeting based on time of day
+const greeting = computed(() => {
+  const hour = new Date().getHours();
+  if (hour < 12) return 'Morning';
+  if (hour < 17) return 'Afternoon';
+  return 'Evening';
+});
+
+// Load current user from localStorage on component mount
+onMounted(() => {
+  const userData = localStorage.getItem('currentUser');
+  if (userData) {
+    try {
+      currentUser.value = JSON.parse(userData);
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      // Clear invalid data
+      localStorage.removeItem('currentUser');
+    }
+  }
+});
+
+/**
+ * Handle user logout
+ */
+const handleLogout = async () => {
+  try {
+    // Clear user data from localStorage
+    localStorage.removeItem('currentUser');
+    
+    // Show logout notification
+    $q.notify({
+      color: 'info',
+      textColor: 'white',
+      icon: 'info',
+      message: 'You have been signed out successfully.'
+    });
+
+    // Redirect to landing page
+    await router.push('/');
+    
+  } catch (error) {
+    console.error('Logout error:', error);
+    $q.notify({
+      color: 'red-5',
+      textColor: 'white',
+      icon: 'error',
+      message: 'An error occurred during logout.'
+    });
+  }
+};
 </script>
 
 <style scoped>

@@ -266,13 +266,15 @@ const handleRegistration = async () => {
   try {
     // 2. Save the structured data to localStorage
     localStorage.setItem('registeredUser', JSON.stringify(userToSave));
+    // Also set as current user (auto-login after registration)
+    localStorage.setItem('currentUser', JSON.stringify(userToSave));
 
     // 3. Show a success notification
     $q.notify({
       color: 'green-4',
       textColor: 'white',
       icon: 'cloud_done',
-      message: 'Registration Successful! Data saved locally.'
+      message: 'Registration Successful! You are now signed in.'
     });
 
     // Await the navigation to the home page
