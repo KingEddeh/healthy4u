@@ -15,11 +15,11 @@
       <q-btn
         unelevated
         class="col-11 col-sm-5 col-md-2 dashboard-button"
-        to="/records"
+        to="/documents"
       >
         <div class="button-content-wrapper items-center no-wrap">
           <q-avatar size="60px" font-size="30px" color="primary" text-color="white" icon="fas fa-chart-line" />
-          <div class="text-container text-weight-medium">Records Overview</div>
+          <div class="text-container text-weight-medium">Documents</div>
         </div>
       </q-btn>
 
@@ -27,7 +27,7 @@
       <q-btn
         unelevated
         class="col-11 col-sm-5 col-md-2 dashboard-button"
-        to="/qr-code"
+        to="/qr"
       >
         <div class="button-content-wrapper items-center no-wrap">
           <q-avatar size="60px" font-size="30px" color="secondary" text-color="white" icon="fas fa-qrcode" />

@@ -149,7 +149,9 @@ async function navigate(routeName: string) {
   transition: transform 0.2s ease-in-out;
   justify-self: center;
   
-  &:hover { transform: translateY(-40%) scale(1.05); }
+  @media (hover: hover) {
+    &:hover { transform: translateY(-40%) scale(1.05); }
+  }
 }
 
 </style>
