@@ -187,45 +187,10 @@ import { ref, reactive } from 'vue';
 import { useQuasar, QStepper } from 'quasar';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'vue-router';
+import type { RegistrationFormData, UserPayload } from '../components/data';
 
 // Initialize the router instance
 const router = useRouter();
-
-// Define an interface for the Medical Record data
-interface MedicalRecordData {
-  date_of_birth: string;
-  sex: 'male' | 'female' | '';
-  allergies: string;
-  current_medications: string;
-  past_medical_history: string;
-  family_medical_history: string;
-  immunization_history: string;
-  blood_type: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-' | '';
-  height_cm: number | null;
-  weight_kg: number | null;
-}
-
-// Define an interface for the entire form's data structure
-interface RegistrationFormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-  user_type: 'patient'; // Only 'patient' is handled by this form
-  medicalRecord: MedicalRecordData;
-}
-
-// Define an interface for the final object to be saved
-interface UserPayload {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string; // Note: In a real application, never store passwords in plain text
-  user_type: 'patient';
-  medical_record: MedicalRecordData;
-}
 
 // Initialize Quasar's notification plugin
 const $q = useQuasar();
