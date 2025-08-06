@@ -30,27 +30,6 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
-
-  // Navigation guard to protect routes that require authentication
-  Router.beforeEach((to, from, next) => {
-    // Routes that require authentication
-    const protectedRoutes = ['home', 'documents', 'qr', 'profiles', 'menu'];
     
-    // Check if the route requires authentication
-    if (protectedRoutes.includes(to.name as string)) {
-      // Check if user is logged in
-      const currentUser = localStorage.getItem('currentUser');
-      
-      if (!currentUser) {
-        // User is not logged in, redirect to landing page
-        next('/');
-        return;
-      }
-    }
-    
-    // Allow navigation
-    next();
-  });
-
   return Router;
 });

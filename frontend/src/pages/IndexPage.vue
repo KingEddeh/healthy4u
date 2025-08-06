@@ -22,7 +22,7 @@
           flat
           no-caps
           color="primary"
-          @click="showLoginDialog = true"
+          to="/signin"
           class="q-pa-none text-decoration-underline"
           style="font-size: 1rem; text-align: center;"
         >
@@ -33,16 +33,9 @@
       </div>
 
     </div>
-
-    <!-- Login Dialog -->
-    <SignIn v-model="showLoginDialog" />
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import SignIn from '../components/SignIn.vue';
 
-// Dialog state
-const showLoginDialog = ref(false);
 </script>

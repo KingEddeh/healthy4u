@@ -1,5 +1,5 @@
- <template>
-  <q-dialog v-model="isVisible" persistent>
+<template>
+  <q-page class="flex flex-center bg-grey-2">
     <q-card class="signin-card">
       <!-- Header -->
       <q-card-section>
@@ -11,15 +11,19 @@
       <q-card-section class="q-pa-none q-mb-lg">
         <div class="row q-col-gutter-md q-mb-md">
           <div class="col-6">
-            <q-btn outline class="full-width social-btn" color="grey-8" @click="handleSocial('google')">
-              <q-icon name="img:src/assets/google_logo.svg" size="20px" class="q-mr-sm" />
-              Google
+            <q-btn outline class="full-width q-py-md" color="grey-8" @click="handleSocial('google')">
+              <div class="row items-center justify-center q-gutter-x-sm">
+                <q-icon name="img:src/assets/google-icon-logo-svgrepo-com.svg" size="20px" />
+                <span>Google</span>
+              </div>
             </q-btn>
           </div>
           <div class="col-6">
-            <q-btn outline class="full-width social-btn" color="grey-8" @click="handleSocial('github')">
-              <q-icon name="img:src/assets/github_logo.svg" size="20px" class="q-mr-sm" />
-              GitHub
+            <q-btn outline class="full-width q-py-md" color="grey-8" @click="handleSocial('github')">
+              <div class="row items-center justify-center q-gutter-x-sm">
+                <q-icon name="img:src/assets/github-mark.svg" size="20px" />
+                <span>GitHub</span>
+              </div>
             </q-btn>
           </div>
         </div>
@@ -27,23 +31,39 @@
 
       <!-- Divider -->
       <q-card-section class="q-pa-none q-mb-lg">
-        <div class="divider-row">
-          <div class="divider-line"></div>
-          <span class="divider-text">or</span>
-          <div class="divider-line"></div>
+        <div class="row items-center q-mb-lg">
+          <div class="col">
+            <q-separator />
+          </div>
+          <div class="col-auto q-px-md">
+            <span class="text-grey-6">or</span>
+          </div>
+          <div class="col">
+            <q-separator />
+          </div>
         </div>
       </q-card-section>
 
       <!-- Email Login Form -->
       <q-card-section>
-        <q-form @submit.prevent="handleEmailLogin" class="q-gutter-md">
-          <div class="text-left text-grey-8 text-weight-medium q-mb-xs" style="font-size:14px;">Email address</div>
+        <q-form @submit.prevent="handleEmailLogin">
+          <div class="text-left text-grey-8 text-weight-medium" style="font-size:14px;">Email address</div>
           <q-input
             filled
             type="email"
             v-model="email"
             id="email-input"
             :rules="[val => !!val || 'Email is required', val => /^.+@.+\..+$/.test(val) || 'Please enter a valid email']"
+            style="width:100%;"
+            class="q-mb-sm"
+          />
+          <div class="text-left text-grey-8 text-weight-medium" style="font-size:14px;">Password</div>
+           <q-input
+            filled
+            type="password"
+            v-model="password"
+            id="password-input"
+            :rules="[val => !!val || 'Password is required']"
             style="width:100%;"
             class="q-mb-lg"
           />
@@ -64,63 +84,45 @@
           <span class="text-grey-7" style="font-size:14px;">Don't have an account? </span>
           <q-btn flat no-caps color="primary" class="q-pa-none text-decoration-underline" @click="goToRegister">Sign up</q-btn>
         </div>
-        <div class="row justify-center items-center q-mt-md" style="font-size:12px; color:#9CA3AF;">
-          <span>Secured by</span>
-          <q-icon name="img:src/assets/clerk_logo.svg" size="16px" class="q-mx-xs" />
-          <a href="https://clerk.com" target="_blank" style="color:#9CA3AF; text-decoration:none;">Clerk</a>
-        </div>
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 
-// Props and Emits
-interface Props {
-  modelValue: boolean;
-}
-interface Emits {
-  (e: 'update:modelValue', value: boolean): void;
-}
-const props = defineProps<Props>();
-const emit = defineEmits<Emits>();
 const router = useRouter();
 const $q = useQuasar();
 
-const isVisible = computed({
-  get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
-});
-
 const email = ref('');
+const password = ref('');
 
 function handleSocial(provider: 'google' | 'github') {
   $q.notify({
     color: 'info',
     textColor: 'white',
-    icon: provider === 'google' ? 'img:src/assets/google_logo.svg' : 'img:src/assets/github_logo.svg',
+    icon: 'info',
     message: `Social login with ${provider} is not implemented in prototype.`
   });
 }
 
-function handleEmailLogin() {
-  if (!email.value) return;
+ async function handleEmailLogin() {
+  if (!email.value || !password.value) return;
   // Prototype: just notify and close
   $q.notify({
     color: 'green-4',
     textColor: 'white',
     icon: 'check_circle',
-    message: `Signed in as ${email.value}`
+    message: `Signed in as ${email.value}`,
+    position: 'top-right',
   });
-  isVisible.value = false;
+  await router.push('/home');
 }
 
 async function goToRegister() {
-  isVisible.value = false;
   await router.push('/register');
 }
 </script>
@@ -132,32 +134,8 @@ async function goToRegister() {
   padding: 32px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   max-width: 400px;
+  width: 100%;
   font-family: 'Roboto', sans-serif;
   text-align: center;
-}
-.social-btn {
-  border-radius: 8px;
-  padding: 12px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-.divider-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6B7280;
-  margin-bottom: 24px;
-}
-.divider-line {
-  flex: 1;
-  height: 1px;
-  background: #E5E7EB;
-}
-.divider-text {
-  margin: 0 12px;
-  font-size: 14px;
 }
 </style>

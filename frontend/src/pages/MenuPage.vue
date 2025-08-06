@@ -36,19 +36,13 @@
             <q-card-section class="row items-center">
               <q-icon :name="setting.icon" :color="setting.color" size="24px" />
               <div class="col q-ml-md text-left">
-                <div class="text-subtitle1">{{ setting.title }}</div>
+                <div class="text-subtitle1" :class="setting.textColor">{{ setting.title }}</div>
               </div>
               <q-icon name="chevron_right" color="grey-5" />
             </q-card-section>
           </q-card>
         </div>
         
-        <q-btn 
-          flat 
-          color="primary" 
-          label="Back to Home" 
-          @click="goHome"
-        />
       </div>
     </div>
   </q-page>
@@ -65,7 +59,8 @@ interface MenuItem {
   description: string;
   icon: string;
   color: string;
-  action: () => void;
+  textColor?: string;
+  action: () => void | Promise<void>;
 }
 
 const router = useRouter();
@@ -138,12 +133,48 @@ const settingsItems = ref<MenuItem[]>([
     icon: 'help',
     color: 'grey-7',
     action: () => navigateToFeature('Help & Support')
+  },
+  {
+    id: 5,
+    title: 'Sign Out',
+    description: '',
+    icon: 'logout',
+    color: 'red',
+    textColor: 'text-red',
+    action: () => handleLogout()
   }
 ]);
 
-async function goHome() {
-  await router.push({ name: 'home' });
-}
+
+/**
+ * Handle user logout
+ */
+const handleLogout = async () => {
+  try {
+    // Clear user data from localStorage
+    localStorage.removeItem('currentUser');
+
+    // Redirect to landing page
+    await router.push('/signin');
+    
+    // Show logout notification
+    $q.notify({
+      color: 'info',
+      textColor: 'white',
+      icon: 'info',
+      message: 'You have been signed out successfully.'
+    });
+
+  } catch (error) {
+    console.error('Logout error:', error);
+    $q.notify({
+      color: 'red-5',
+      textColor: 'white',
+      icon: 'error',
+      message: 'An error occurred during logout.'
+    });
+  }
+};
 
 function navigateToFeature(featureName: string) {
   $q.notify({

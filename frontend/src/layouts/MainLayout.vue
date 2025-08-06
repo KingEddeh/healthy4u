@@ -7,7 +7,7 @@
           <q-icon name="favorite_border" size="25px" />
         </q-avatar>
         <q-toolbar-title class="text-weight-bold text-dark text-size-md">
-          Cura<span class="text-primary">Link</span> <span class="text-grey-3">PROTOTYPE V1.0</span>
+          Cura<span class="text-primary">Link</span> <span class="text-grey-4">V1.0</span>
         </q-toolbar-title>
         <q-btn flat dense round color="black" icon="menu" class="q-ml-auto" @click="drawer = !drawer" />
       </q-toolbar>
@@ -31,6 +31,14 @@
           </q-item-section>
           <q-item-section>
             Register
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/signin">
+          <q-item-section avatar>
+            <q-icon name="login" />
+          </q-item-section>
+          <q-item-section>
+            Sign In
           </q-item-section>
         </q-item>
         <q-item clickable v-ripple to="/home">

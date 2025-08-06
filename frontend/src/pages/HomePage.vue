@@ -7,19 +7,6 @@
           Good {{ greeting }}, {{ currentUser?.first_name || 'User' }}!
         </h4>
         <p class="text-grey-7">Here's your dashboard for today.</p>
-        
-        <!-- Logout button for logged-in users -->
-        <div v-if="currentUser" class="q-mt-md">
-          <q-btn
-            flat
-            dense
-            color="red"
-            icon="logout"
-            label="Sign Out"
-            @click="handleLogout"
-            size="sm"
-          />
-        </div>
       </div>
     </div>
 
@@ -80,13 +67,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useQuasar } from 'quasar';
-import { useRouter } from 'vue-router';
-import type { UserPayload } from '../components/data';
-
-// Initialize router and Quasar
-const router = useRouter();
-const $q = useQuasar();
+import type { UserPayload } from '../types/data';
 
 // Current user data
 const currentUser = ref<UserPayload | null>(null);
@@ -112,36 +93,6 @@ onMounted(() => {
     }
   }
 });
-
-/**
- * Handle user logout
- */
-const handleLogout = async () => {
-  try {
-    // Clear user data from localStorage
-    localStorage.removeItem('currentUser');
-    
-    // Show logout notification
-    $q.notify({
-      color: 'info',
-      textColor: 'white',
-      icon: 'info',
-      message: 'You have been signed out successfully.'
-    });
-
-    // Redirect to landing page
-    await router.push('/');
-    
-  } catch (error) {
-    console.error('Logout error:', error);
-    $q.notify({
-      color: 'red-5',
-      textColor: 'white',
-      icon: 'error',
-      message: 'An error occurred during logout.'
-    });
-  }
-};
 </script>
 
 <style scoped>
