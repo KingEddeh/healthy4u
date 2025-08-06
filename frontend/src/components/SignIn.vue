@@ -1,4 +1,4 @@
-<template>
+ <template>
   <q-dialog v-model="isVisible" persistent>
     <q-card class="signin-card">
       <!-- Header -->
