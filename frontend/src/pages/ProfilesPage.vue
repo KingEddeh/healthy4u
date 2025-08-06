@@ -14,7 +14,7 @@
         </p>
         
         <!-- Current User Profile -->
-        <q-card class="q-mb-md profile-card-primary">
+        <q-card class="q-mb-md profile-card-primary" clickable @click="viewProfileDetail">
           <q-card-section>
             <div class="row items-center">
               <q-avatar size="50px" color="primary" text-color="white">
@@ -24,7 +24,7 @@
                 <div class="text-h6">Your Profile</div>
                 <div class="text-caption text-grey-6">Primary Account</div>
               </div>
-              <q-btn flat round icon="edit" color="primary" @click="editProfile('main')" />
+              <q-btn flat round icon="chevron_right" color="primary" />
             </div>
           </q-card-section>
         </q-card>
@@ -92,6 +92,10 @@ const familyProfiles = ref<FamilyProfile[]>([
 
 async function goHome() {
   await router.push({ name: 'home' });
+}
+
+async function viewProfileDetail() {
+  await router.push('/profile-detail');
 }
 
 function editProfile(profileType: string) {

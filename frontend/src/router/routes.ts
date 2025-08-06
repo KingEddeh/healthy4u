@@ -20,6 +20,11 @@ const routes: RouteRecordRaw[] = [
         meta: { showHeader: true, showFooter: false },
         component: () => import('pages/SignInPage.vue')
       },
+      {
+        path: 'profile-detail',
+        meta: { showHeader: true, showFooter: true },
+        component: () => import('pages/ProfileDetailPage.vue')
+      },
       { 
         path: 'home', 
         name: 'home',
