@@ -1,159 +1,363 @@
 <template>
-  <q-page class="q-pa-md">
-    <!-- Row 1: Greeting -->
-    <div class="row justify-center q-mb-lg">
-      <div class="col-12 col-md-8 text-center">
-        <h4 class="q-mt-sm q-mb-none text-weight-bold">
-          Good {{ greeting }}, {{ currentUser?.first_name || 'User' }}!
-        </h4>
-        <p class="text-grey-7">Here's your dashboard for today.</p>
+  <q-page class="q-pa-md bg-grey-1">
+    <!-- Header Section -->
+    <header class="row items-center justify-between q-mb-md">
+      <div>
+        <p class="q-ma-none text-grey-9 text-body1">Hello,</p>
+        <p class="q-ma-none text-h5 text-bold text-black">Siyam Ahamed!</p>
       </div>
-    </div>
+      <q-avatar size="52px">
+        <img :src="'https://placehold.co/100x100/E6F2FF/333333?text=SA'">
+      </q-avatar>
+    </header>
 
-    <!-- Row 2: Buttons Grid -->
-    <!-- This grid stacks buttons vertically on extra-small screens -->
-    <div class="row justify-center q-gutter-y-md q-gutter-sm-md">
-      <!-- Records Overview Button -->
-      <q-btn
-        unelevated
-        class="col-11 col-sm-5 col-md-2 dashboard-button"
-        to="/documents"
+    <!-- Search Section -->
+    <q-input
+      outlined
+      rounded
+      v-model="searchQuery"
+      :placeholder="searchPlaceholder"
+      class="q-mb-lg"
+      bg-color="white"
+    >
+      <template v-slot:prepend>
+        <q-icon name="search" class="q-ml-sm" />
+      </template>
+    </q-input>
+
+    <!-- Medical Specialties Carousel -->
+    <section class="q-mb-lg">
+      <h2 class="text-h6 text-bold text-black q-mb-sm">Medical Specialties</h2>
+      <q-carousel
+        v-model="carouselSlide"
+        transition-prev="jump-right"
+        transition-next="jump-left"
+        swipeable
+        animated
+        control-color="primary"
+        prev-icon="arrow_left"
+        next-icon="arrow_right"
+        navigation-icon="radio_button_unchecked"
+        navigation
+        padding
+        arrows
+        height="90px"
+        class="specialty-carousel bg-primary text-white shadow-1 rounded-borders"
       >
-        <div class="button-content-wrapper items-center no-wrap">
-          <q-avatar size="60px" font-size="30px" color="primary" text-color="white" icon="fas fa-chart-line" />
-          <div class="text-container text-weight-medium">Documents</div>
-        </div>
-      </q-btn>
+        <q-carousel-slide
+          v-for="specialty in specialties"
+          :key="specialty.name"
+          :name="specialty.name"
+          class="column no-wrap flex-center cursor-pointer"
+          @click="selectSpecialty(specialty)"
+        >
+          <q-icon :name="getSpecialtyIcon(specialty.icon)" size="56px" />
+          <div class="q-mt-md text-center text-h6 text-weight-bold">
+            {{ specialty.name }}
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
+    </section>
 
-      <!-- QR Code Button -->
-      <q-btn
-        unelevated
-        class="col-11 col-sm-5 col-md-2 dashboard-button"
-        to="/qr"
-      >
-        <div class="button-content-wrapper items-center no-wrap">
-          <q-avatar size="60px" font-size="30px" color="secondary" text-color="white" icon="fas fa-qrcode" />
-          <div class="text-container text-weight-medium">QR Code</div>
-        </div>
-      </q-btn>
+    <!-- Upcoming Appointment Section -->
+    <section class="q-mb-lg">
+      <h2 class="text-h6 text-bold text-black q-mb-sm">Upcoming Appointment</h2>
+      <q-card class="appointment-card-v2" flat>
+        <q-card-section class="q-pa-none">
+          <div class="date-block-mobile row items-center justify-center text-white q-pa-sm">
+            <div class="text-weight-bold q-mr-xs">{{ upcomingAppointment.day }}</div>
+            <div class="text-uppercase">{{ upcomingAppointment.month }}</div>
+          </div>
 
-      <!-- Profiles Button -->
-      <q-btn
-        unelevated
-        class="col-11 col-sm-5 col-md-2 dashboard-button"
-        to="/profiles"
-      >
-        <div class="button-content-wrapper items-center no-wrap">
-          <q-avatar size="60px" font-size="30px" color="accent" text-color="white" icon="fas fa-users" />
-          <div class="text-container text-weight-medium">Profiles</div>
-        </div>
-      </q-btn>
+          <div class="q-pa-md">
+            <div class="text-h6 text-weight-bold">{{ upcomingAppointment.title }}</div>
+            <div class="text-grey-7 q-mb-md">with {{ upcomingAppointment.doctor.name }}</div>
 
-      <!-- Menu Button -->
-      <q-btn
-        unelevated
-        class="col-11 col-sm-5 col-md-2 dashboard-button"
-        to="/menu"
-      >
-        <div class="button-content-wrapper items-center no-wrap">
-          <q-avatar size="60px" font-size="30px" color="info" text-color="white" icon="fas fa-bars" />
-          <div class="text-container text-weight-medium">Menu</div>
-        </div>
-      </q-btn>
-    </div>
+            <div class="column q-gutter-y-sm">
+              <div class="row items-center">
+                <span class="text-caption text-primary text-weight-medium q-mr-sm">TIME:</span>
+                <span class="text-body2 text-grey-8">{{ upcomingAppointment.time }}</span>
+              </div>
+              <div class="row items-center">
+                <span class="text-caption text-primary text-weight-medium q-mr-sm">LOCATION:</span>
+                <span class="text-body2 text-grey-8">{{ upcomingAppointment.location }}</span>
+              </div>
+            </div>
+          </div>
+        </q-card-section>
 
+        <q-card-actions align="right" class="bg-grey-1 q-pa-sm">
+          <q-btn flat color="negative" label="Cancel" size="sm" />
+          <q-btn flat color="primary" label="Reschedule" size="sm" />
+        </q-card-actions>
+      </q-card>
+    </section>
+
+    <!-- Recent Visits Section -->
+    <section>
+      <header class="row items-center justify-between q-mb-sm">
+        <h2 class="text-h6 text-bold text-black">My Recent Visit</h2>
+        <q-btn flat dense no-caps label="See All" color="primary" />
+      </header>
+      <q-scroll-area horizontal style="height: 225px;">
+        <div class="row no-wrap q-gutter-md">
+          <q-card v-for="visit in recentVisits" :key="visit.doctor.name" class="recent-doctor-card" flat bordered>
+            <div class="q-pa-sm">
+              <q-img :src="visit.doctor.avatar" style="height: 100px; border-radius: 8px;" />
+            </div>
+            <q-card-section class="q-pa-sm q-pt-none text-center">
+              <div class="text-bold text-black text-body2">{{ visit.doctor.name }}</div>
+              <div class="text-caption text-grey-7">{{ visit.specialty }}</div>
+              <div class="text-caption text-grey-7">{{ visit.experience }}</div>
+            </q-card-section>
+            <q-card-actions align="around" class="q-px-sm q-pb-sm no-wrap">
+              <q-btn rounded unelevated color="blue-grey-1" text-color="primary" no-caps label="Book Now" class="full-width q-mr-xs" style="font-size: 11px;"/>
+              <q-btn round unelevated color="blue-grey-1" icon="o_call" text-color="primary" size="xs" />
+            </q-card-actions>
+          </q-card>
+        </div>
+      </q-scroll-area>
+    </section>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import type { UserPayload } from '../types/data';
 
 // Current user data
 const currentUser = ref<UserPayload | null>(null);
+const searchQuery = ref('');
+const searchPlaceholder = 'Search Doctor';
 
-// Computed greeting based on time of day
-const greeting = computed(() => {
-  const hour = new Date().getHours();
-  if (hour < 12) return 'Morning';
-  if (hour < 17) return 'Afternoon';
-  return 'Evening';
+// Carousel data
+const carouselSlide = ref('Neurologist'); // Set to first specialty name
+const autoplay = ref(false); // Disable autoplay for better UX
+
+// Medical specialties data
+const specialties = ref([
+  { name: 'Neurologist', icon: 'neurologist_icon' },
+  { name: 'Cardiologist', icon: 'cardiologist_icon' },
+  { name: 'Orthopedist', icon: 'orthopedist_icon' },
+  { name: 'Pulmonologist', icon: 'pulmonologist_icon' },
+  { name: 'Dentist', icon: 'dentist_icon' },
+  { name: 'Dermatologist', icon: 'dermatologist_icon' },
+  { name: 'Pediatrician', icon: 'pediatrician_icon' },
+  { name: 'Gynecologist', icon: 'gynecologist_icon' }
+]);
+
+// Upcoming appointment data
+const upcomingAppointment = ref({
+  doctor: {
+    name: 'Dr. Evelyn Reed',
+    avatar: 'https://placehold.co/150x150/D6E4FF/333333?text=ER'
+  },
+  title: 'Cardiology Check-up',
+  specialty: 'Cardiology',
+  day: '12',
+  month: 'AUG',
+  date: 'Wed, 12 Aug 2024',
+  time: '10:30 AM',
+  location: 'St. Luke\'s Medical Center'
 });
+
+// Recent visits data
+const recentVisits = ref([
+  {
+    doctor: {
+      name: 'Dr. Warner',
+      avatar: 'https://placehold.co/150x150/D6E4FF/333333?text=DW'
+    },
+    specialty: 'Neurology',
+    experience: '5 years experience'
+  },
+  {
+    doctor: {
+      name: 'Dr. Steave',
+      avatar: 'https://placehold.co/150x150/333333/E6F2FF?text=DS'
+    },
+    specialty: 'Cardiology',
+    experience: '7 years experience'
+  },
+  {
+    doctor: {
+      name: 'Dr. Riya',
+      avatar: 'https://placehold.co/150x150/D6E4FF/333333?text=DR'
+    },
+    specialty: 'Orthopedics',
+    experience: '3 years experience'
+  }
+]);
+
+// Methods
+const getSpecialtyIcon = (iconName: string): string => {
+  const iconMap: Record<string, string> = {
+    'neurologist_icon': 'o_psychology',
+    'cardiologist_icon': 'o_monitor_heart',
+    'orthopedist_icon': 'o_personal_injury',
+    'pulmonologist_icon': 'o_lungs',
+    'dentist_icon': 'o_local_hospital',
+    'dermatologist_icon': 'o_face_retouching_natural',
+    'pediatrician_icon': 'o_child_care',
+    'gynecologist_icon': 'o_pregnant_woman'
+  };
+  return iconMap[iconName] || 'o_medical_services';
+};
+
+const selectSpecialty = (specialty: { name: string; icon: string }): void => {
+  console.log('Selected specialty:', specialty.name);
+  // Add navigation or filter logic here
+};
 
 // Load current user from localStorage on component mount
 onMounted(() => {
   const userData = localStorage.getItem('currentUser');
   if (userData) {
     try {
-      currentUser.value = JSON.parse(userData);
+      const parsedUser = JSON.parse(userData);
+      currentUser.value = {
+        ...parsedUser,
+        name: parsedUser.first_name ? `${parsedUser.first_name} ${parsedUser.last_name || ''}`.trim() : 'Siyam Ahamed!',
+        avatar: parsedUser.avatar || 'https://placehold.co/100x100/E6F2FF/333333?text=SA'
+      };
     } catch (error) {
       console.error('Error parsing user data:', error);
-      // Clear invalid data
       localStorage.removeItem('currentUser');
+      // Set default user data
+      currentUser.value = {
+        id: 'default',
+        first_name: 'Siyam',
+        last_name: 'Ahamed!',
+        email: 'default@example.com',
+        password: '',
+        user_type: 'patient',
+        medical_record: {} as any,
+        name: 'Siyam Ahamed!',
+        avatar: 'https://placehold.co/100x100/E6F2FF/333333?text=SA'
+      } as UserPayload;
     }
+  } else {
+    // Set default user data if no user in localStorage
+    currentUser.value = {
+      id: 'default',
+      first_name: 'Siyam',
+      last_name: 'Ahamed!',
+      email: 'default@example.com',
+      password: '',
+      user_type: 'patient',
+      medical_record: {} as any,
+      name: 'Siyam Ahamed!',
+      avatar: 'https://placehold.co/100x100/E6F2FF/333333?text=SA'
+    } as UserPayload;
   }
 });
 </script>
 
-<style scoped>
-.dashboard-button {
-  height: 180px;
-  max-width: 180px;
-  border-radius: 20px;
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  padding: 16px;
+<style lang="scss" scoped>
+// General Page Styling
+.q-page {
+  color: #252B5C; // Default dark text color
 }
 
-.dashboard-button:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-}
+// Specialty Carousel Styling
+.specialty-carousel {
+  border-radius: 12px;
 
-.button-content-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.text-container {
-  margin-top: 1rem;
-  text-align: center;
-  color: #343a40;
-  font-size: 1rem;
-}
-
-/* Mobile-first adjustments for screens smaller than 600px */
-@media (max-width: 599.98px) {
-  .dashboard-button {
-    height: 100px; /* Adjust height for horizontal layout */
-    max-width: 100%; /* Allow buttons to take full width */
-    padding: 0 16px; /* Adjust padding */
-  }
-
-  .button-content-wrapper {
-    flex-direction: row; /* Change to horizontal layout */
-    justify-content: flex-start; /* Align items to the start */
-  }
-
-  .text-container {
-    margin-top: 0;
-    margin-left: 16px; /* Add space between avatar and text */
-    text-align: left;
-  }
-
-  h4 {
-    font-size: 1.75rem; /* Make heading smaller on mobile */
-  }
-}
-
-/* Tablet view adjustments (sm breakpoint in Quasar) */
-@media (min-width: 600px) and (max-width: 1023.98px) {
-    .dashboard-button {
-        height: 160px;
+  .q-carousel__slide {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
+  }
+
+  .q-carousel__navigation {
+    .q-btn {
+      background-color: rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+    
+    .q-btn--current {
+      background-color: white;
+      color: #00b0b0;
+    }
+  }
+
+  .q-carousel__arrow {
+    .q-btn {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #00b0b0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+// Appointment Card Styling
+.appointment-card-v2 {
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.date-block-mobile {
+  background-color: #00b0b0; // Using $primary equivalent
+  width: 100%;
+}
+
+// Recent Doctor Card Styling
+.recent-doctor-card {
+  width: 160px;
+  border-radius: 12px;
+  border-color: #F0F0F0;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// Remove default outline on focus for better visual consistency
+.q-field--outlined.q-field--rounded .q-field__control {
+  border-radius: 28px;
+}
+
+// Mobile-First Design
+.q-page {
+  padding: 16px !important;
+}
+
+.recent-doctor-card {
+  width: 140px;
+}
+
+// Mobile appointment card adjustments
+.appointment-card-v2 {
+  .q-card__actions {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    
+    .q-btn {
+      flex: 1;
+    }
+  }
+}
+
+// Ensure mobile text is readable
+.text-h6 {
+  font-size: 1.1rem !important;
+}
+
+// Quasar Component Overrides
+.q-btn--flat:before {
+  background: transparent;
+}
+
+.q-card {
+  background-color: #FFFFFF;
+}
+
+.q-input {
+  font-family: 'Roboto', sans-serif;
 }
 </style>

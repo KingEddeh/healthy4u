@@ -94,6 +94,7 @@
         <q-btn flat stack no-caps class="footer-btn" icon="folder" :label="$q.screen.width > 350 ? 'Documents' : ''" @click="navigate('documents')" />
         <q-btn round size="lg" color="primary" icon="qr_code_2" class="qr-btn" @click="navigate('qr')" />
         <q-btn flat stack no-caps class="footer-btn" icon="people" :label="$q.screen.width > 350 ? 'Profiles' : ''" @click="navigate('profiles')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="rate_review" :label="$q.screen.width > 350 ? 'Reviews' : ''" @click="navigateToHospitalReviews" />
         <q-btn flat stack no-caps class="footer-btn" icon="menu" :label="$q.screen.width > 350 ? 'Menu' : ''" @click="navigate('menu')" />
       </q-toolbar>
     </q-footer>
@@ -125,6 +126,25 @@ async function navigate(routeName: string) {
     console.error('Navigation failed:', error);
   }
 }
+
+/**
+ * Navigates to the hospital reviews page.
+ */
+async function navigateToHospitalReviews() {
+  try {
+    // For now, show a notification as the feature is coming soon
+    $q.notify({
+      type: 'info',
+      message: 'Hospital Reviews feature coming soon!',
+      position: 'top',
+      timeout: 2000
+    });
+    // When the page is ready, use this instead:
+    // await router.push('/hospital-reviews');
+  } catch (error) {
+    console.error('Navigation to hospital reviews failed:', error);
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -137,7 +157,7 @@ async function navigate(routeName: string) {
 
 .footer-nav {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   align-items: center;
   gap: 4px;
   min-width: 320px;
