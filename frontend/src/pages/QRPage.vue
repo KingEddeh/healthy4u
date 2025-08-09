@@ -10,7 +10,7 @@
       <div class="text-center">
         <h4 class="text-h4 q-mt-md q-mb-sm">QR Code Access</h4>
         <p class="text-grey-6 q-mb-lg">
-          Share your medical information securely with healthcare providers using QR codes.
+          WAG NIYO SABIHIN NA DI GUMANA PLS HUHUHUH DI KO MAGAWA KAGABI PA AYAW PARIN AAAAAA.
         </p>
         
         <q-card class="q-mb-lg qr-card">
