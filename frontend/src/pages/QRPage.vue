@@ -16,7 +16,18 @@
         <q-card class="q-mb-lg qr-card">
           <q-card-section class="text-center">
             <div class="qr-placeholder q-mb-md">
-              <q-icon name="qr_code_2" size="120px" color="primary" />
+              <img 
+                v-if="qrCodeDataURL" 
+                :src="qrCodeDataURL" 
+                alt="Medical QR Code"
+                class="qr-image"
+              />
+              <q-icon 
+                v-else 
+                name="qr_code_2" 
+                size="120px" 
+                color="primary" 
+              />
             </div>
             <div class="text-h6 q-mb-xs">Your Medical QR Code</div>
             <p class="text-caption text-grey-6">
@@ -35,11 +46,20 @@
           />
           
           <q-btn 
+            color="secondary" 
+            label="Scan QR Code" 
+            icon="qr_code_scanner"
+            class="full-width q-mb-sm"
+            @click="goToScanner"
+          />
+          
+          <q-btn 
             color="positive" 
             label="Share Code" 
             icon="share"
             class="full-width q-mb-sm"
             @click="shareQR"
+            :disable="!qrCodeDataURL"
           />
           
           <q-btn 
@@ -49,6 +69,7 @@
             icon="download"
             class="full-width"
             @click="downloadQR"
+            :disable="!qrCodeDataURL"
           />
         </div>
         
@@ -64,39 +85,143 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import { useQRStore } from '../stores/qr-store';
+import type { UserPayload } from '../types/data';
 
 const router = useRouter();
 const $q = useQuasar();
+const qrStore = useQRStore();
+
+const qrCodeDataURL = ref<string>('');
+const userData = ref<UserPayload | null>(null);
 
 async function goHome() {
   await router.push({ name: 'home' });
 }
 
-function generateQR() {
-  $q.notify({
-    type: 'positive',
-    message: 'New QR code generated successfully!',
-    position: 'top'
-  });
+async function generateQR() {
+  try {
+    if (!userData.value) {
+      $q.notify({
+        type: 'negative',
+        message: 'No user data found. Please complete your profile first.',
+        position: 'top'
+      });
+      return;
+    }
+
+    // Use the QR store to generate QR code
+    const dataURL = await qrStore.generateQRFromUser(userData.value);
+    qrCodeDataURL.value = dataURL;
+    
+    $q.notify({
+      type: 'positive',
+      message: 'New QR code generated successfully!',
+      position: 'top'
+    });
+  } catch (error) {
+    console.error('Error generating QR code:', error);
+    $q.notify({
+      type: 'negative',
+      message: 'Failed to generate QR code',
+      position: 'top'
+    });
+  }
 }
 
-function shareQR() {
-  $q.notify({
-    type: 'info',
-    message: 'QR code sharing feature coming soon!',
-    position: 'top'
-  });
+async function shareQR() {
+  if (!qrCodeDataURL.value) {
+    $q.notify({
+      type: 'warning',
+      message: 'Please generate a QR code first',
+      position: 'top'
+    });
+    return;
+  }
+
+  try {
+    if (navigator.share && userData.value) {
+      // Use the store method to generate blob
+      const blob = await qrStore.generateQRBlob(userData.value);
+      const file = new File([blob], 'medical-qr-code.png', { type: 'image/png' });
+      
+      await navigator.share({
+        title: 'CuraLink Medical QR Code',
+        text: 'My medical information QR code',
+        files: [file]
+      });
+    } else {
+      $q.notify({
+        type: 'info',
+        message: 'Sharing not supported on this device',
+        position: 'top'
+      });
+    }
+  } catch (error) {
+    console.error('Error sharing QR code:', error);
+    $q.notify({
+      type: 'info',
+      message: 'Sharing cancelled or not supported',
+      position: 'top'
+    });
+  }
 }
 
 function downloadQR() {
-  $q.notify({
-    type: 'info',
-    message: 'QR code download feature coming soon!',
-    position: 'top'
-  });
+  if (!qrCodeDataURL.value) {
+    $q.notify({
+      type: 'warning',
+      message: 'Please generate a QR code first',
+      position: 'top'
+    });
+    return;
+  }
+
+  try {
+    const link = document.createElement('a');
+    link.download = `curalink-medical-qr-${new Date().getTime()}.png`;
+    link.href = qrCodeDataURL.value;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    $q.notify({
+      type: 'positive',
+      message: 'QR code downloaded successfully!',
+      position: 'top'
+    });
+  } catch (error) {
+    console.error('Error downloading QR code:', error);
+    $q.notify({
+      type: 'negative',
+      message: 'Failed to download QR code',
+      position: 'top'
+    });
+  }
 }
+
+async function goToScanner() {
+  await router.push({ name: 'qr-scanner' });
+}
+
+onMounted(async () => {
+  // Load user data from localStorage
+  const storedUser = localStorage.getItem('currentUser');
+  if (storedUser) {
+    userData.value = JSON.parse(storedUser);
+    // Auto-generate QR code on mount
+    await generateQR();
+  } else {
+    $q.notify({
+      type: 'warning',
+      message: 'No user data found. Please register first.',
+      position: 'top'
+    });
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -110,5 +235,14 @@ function downloadQR() {
   border-radius: 8px;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 176, 176, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-image {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 8px;
 }
 </style>

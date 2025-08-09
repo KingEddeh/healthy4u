@@ -65,6 +65,14 @@
             QR Code
           </q-item-section>
         </q-item>
+        <q-item clickable v-ripple to="/qr-scanner">
+          <q-item-section avatar>
+            <q-icon name="qr_code_scanner" />
+          </q-item-section>
+          <q-item-section>
+            QR Scanner
+          </q-item-section>
+        </q-item>
         <q-item clickable v-ripple to="/profiles">
           <q-item-section avatar>
             <q-icon name="people" />

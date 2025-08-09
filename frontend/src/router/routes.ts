@@ -44,6 +44,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/QRPage.vue')
       },
       {
+        path: 'qr-scanner',
+        name: 'qr-scanner',
+        meta: { showHeader: false, showFooter: false },
+        component: () => import('pages/QRScannerPage.vue')
+      },
+      {
         path: 'profiles',
         name: 'profiles',
         meta: { showHeader: true, showFooter: true },
