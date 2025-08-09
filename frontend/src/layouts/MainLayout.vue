@@ -1,13 +1,13 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header v-if="showHeader" bordered class="bg-accent custom-header-border q-pa-xs">
+    <q-header v-if="showHeader" bordered class="custom-header-border q-pa-xs" style="background-color: #E1DBCA;">
       <q-toolbar>
         <q-avatar class="glossy" color="primary" text-color="accent" rounded size="35px">
           <q-icon name="favorite_border" size="25px" />
         </q-avatar>
-        <q-toolbar-title class="text-weight-bold text-dark text-size-md">
-          Cura<span class="text-primary">Link</span> <span class="text-grey-4">V1.0</span>
+        <q-toolbar-title class="text-weight-bold text-dark" style="font-size: xx-large;">
+          <span style="font-family: 'Zain', sans-serif; font-weight: 900; color: black;">Cura</span><span class="text-primary " style="font-family: 'Zain', sans-serif; font-weight: 900;">Link</span>
         </q-toolbar-title>
         <q-btn flat dense round color="black" icon="menu" class="q-ml-auto" @click="drawer = !drawer" />
       </q-toolbar>
@@ -96,7 +96,7 @@
       <router-view />
     </q-page-container>
 
-    <q-footer v-if="showFooter" flat class="bg-grey-9 text-white">
+    <q-footer v-if="showFooter" flat class="bg-secondary text-white">
       <q-toolbar class="footer-nav">
         <q-btn flat stack no-caps class="footer-btn" icon="home" :label="$q.screen.width > 350 ? 'Home' : ''" @click="navigate('home')" />
         <q-btn flat stack no-caps class="footer-btn" icon="folder" :label="$q.screen.width > 350 ? 'Documents' : ''" @click="navigate('documents')" />

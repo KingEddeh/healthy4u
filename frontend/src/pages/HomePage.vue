@@ -69,7 +69,7 @@
       <h2 class="text-h6 text-bold text-black q-mb-sm">Upcoming Appointment</h2>
       <q-card class="appointment-card-v2" flat>
         <q-card-section class="q-pa-none">
-          <div class="date-block-mobile row items-center justify-center text-white q-pa-sm">
+          <div class="bg-primary row items-center justify-center text-white q-pa-sm">
             <div class="text-weight-bold q-mr-xs">{{ upcomingAppointment.day }}</div>
             <div class="text-uppercase">{{ upcomingAppointment.month }}</div>
           </div>
@@ -328,11 +328,6 @@ onMounted(() => {
   border-radius: 12px;
   border: 1px solid #e0e0e0;
   overflow: hidden;
-}
-
-.date-block-mobile {
-  background-color: #00b0b0; // Using $primary equivalent
-  width: 100%;
 }
 
 // Recent Doctor Card Styling
