@@ -25,13 +25,13 @@
       </template>
     </q-input>
 
-    <!-- Medical Specialties Carousel -->
+    <!-- Updates & Reminders Carousel -->
     <section class="q-mb-lg">
-      <h2 class="text-h6 text-bold text-black q-mb-sm">Medical Specialties</h2>
+      <h2 class="text-h6 text-bold text-black q-mb-sm">Updates & Reminders</h2>
       <q-carousel
         v-model="carouselSlide"
-        transition-prev="jump-right"
-        transition-next="jump-left"
+        transition-prev="slide-right"
+        transition-next="slide-left"
         swipeable
         animated
         control-color="primary"
@@ -41,19 +41,22 @@
         navigation
         padding
         arrows
-        height="90px"
-        class="specialty-carousel bg-primary text-white shadow-1 rounded-borders"
+        height="140px"
+        class="info-carousel bg-primary text-white shadow-1 rounded-borders"
       >
         <q-carousel-slide
-          v-for="specialty in specialties"
-          :key="specialty.name"
-          :name="specialty.name"
+          v-for="item in notifications"
+          :key="item.name"
+          :name="item.name"
           class="column no-wrap flex-center cursor-pointer"
-          @click="selectSpecialty(specialty)"
+          @click="handleItemClick(item)"
         >
-          <q-icon :name="getSpecialtyIcon(specialty.icon)" size="56px" />
-          <div class="q-mt-md text-center text-h6 text-weight-bold">
-            {{ specialty.name }}
+          <div class="row items-center no-wrap full-width">
+            <q-icon :name="item.icon" size="44px" class="q-mr-md col-auto" />
+            <div class="col text-left">
+              <div class="text-weight-bold">{{ item.title }}</div>
+              <div class="text-caption">{{ item.message }}</div>
+            </div>
           </div>
         </q-carousel-slide>
       </q-carousel>
@@ -131,19 +134,38 @@ const searchQuery = ref('');
 const searchPlaceholder = 'Search Doctor';
 
 // Carousel data
-const carouselSlide = ref('Neurologist'); // Set to first specialty name
-const autoplay = ref(false); // Disable autoplay for better UX
+const carouselSlide = ref('healthDataReminder'); // Set to first notification name
 
-// Medical specialties data
-const specialties = ref([
-  { name: 'Neurologist', icon: 'neurologist_icon' },
-  { name: 'Cardiologist', icon: 'cardiologist_icon' },
-  { name: 'Orthopedist', icon: 'orthopedist_icon' },
-  { name: 'Pulmonologist', icon: 'pulmonologist_icon' },
-  { name: 'Dentist', icon: 'dentist_icon' },
-  { name: 'Dermatologist', icon: 'dermatologist_icon' },
-  { name: 'Pediatrician', icon: 'pediatrician_icon' },
-  { name: 'Gynecologist', icon: 'gynecologist_icon' }
+// Notifications data for Updates & Reminders carousel
+const notifications = ref([
+  {
+    name: 'healthDataReminder',
+    title: 'Update Your Health Data',
+    message: 'It\'s time to log your latest blood pressure readings.',
+    icon: 'monitor_heart',
+    type: 'reminder',
+    cta: {
+      route: '/health-tracking/blood-pressure'
+    }
+  },
+  {
+    name: 'newFeature',
+    title: 'New Feature: Meal Planner',
+    message: 'Check out our new tool to plan healthy meals.',
+    icon: 'restaurant_menu',
+    type: 'announcement',
+    cta: {
+      route: '/meal-planner'
+    }
+  },
+  {
+    name: 'generalAnnouncement',
+    title: 'System Maintenance',
+    message: 'Scheduled maintenance on Sunday at 2 AM.',
+    icon: 'settings',
+    type: 'announcement',
+    cta: null
+  }
 ]);
 
 // Upcoming appointment data
@@ -190,23 +212,14 @@ const recentVisits = ref([
 ]);
 
 // Methods
-const getSpecialtyIcon = (iconName: string): string => {
-  const iconMap: Record<string, string> = {
-    'neurologist_icon': 'o_psychology',
-    'cardiologist_icon': 'o_monitor_heart',
-    'orthopedist_icon': 'o_personal_injury',
-    'pulmonologist_icon': 'o_lungs',
-    'dentist_icon': 'o_local_hospital',
-    'dermatologist_icon': 'o_face_retouching_natural',
-    'pediatrician_icon': 'o_child_care',
-    'gynecologist_icon': 'o_pregnant_woman'
-  };
-  return iconMap[iconName] || 'o_medical_services';
-};
-
-const selectSpecialty = (specialty: { name: string; icon: string }): void => {
-  console.log('Selected specialty:', specialty.name);
-  // Add navigation or filter logic here
+const handleItemClick = (item: { name: string; title: string; message: string; icon: string; type: string; cta: { route: string } | null }): void => {
+  if (item.cta && item.cta.route) {
+    console.log(`Navigating to: ${item.cta.route}`);
+    // Add navigation logic here when routes are implemented
+    // router.push(item.cta.route);
+  } else {
+    console.log(`Clicked on item with no action: ${item.title}`);
+  }
 };
 
 // Load current user from localStorage on component mount
@@ -259,11 +272,12 @@ onMounted(() => {
   color: #252B5C; // Default dark text color
 }
 
-// Specialty Carousel Styling
-.specialty-carousel {
+// Updates & Reminders Carousel Styling
+.info-carousel {
   border-radius: 12px;
 
   .q-carousel__slide {
+    padding: 16px 24px;
     transition: all 0.3s ease;
     
     &:hover {
@@ -275,9 +289,10 @@ onMounted(() => {
     .q-btn {
       background-color: rgba(255, 255, 255, 0.3);
       color: white;
+      margin: 0 4px;
     }
     
-    .q-btn--current {
+    .q-btn--active {
       background-color: white;
       color: #00b0b0;
     }
