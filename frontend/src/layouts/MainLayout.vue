@@ -130,7 +130,7 @@ async function navigate(routeName: string) {
 /**
  * Navigates to the hospital reviews page.
  */
-async function navigateToHospitalReviews() {
+function navigateToHospitalReviews() {
   try {
     // For now, show a notification as the feature is coming soon
     $q.notify({

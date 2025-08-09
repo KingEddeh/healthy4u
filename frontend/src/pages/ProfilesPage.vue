@@ -98,14 +98,6 @@ async function viewProfileDetail() {
   await router.push('/profile-detail');
 }
 
-function editProfile(profileType: string) {
-  $q.notify({
-    type: 'info',
-    message: `Edit ${profileType} profile feature coming soon!`,
-    position: 'top'
-  });
-}
-
 function profileMenu(profile: FamilyProfile) {
   $q.notify({
     type: 'info',

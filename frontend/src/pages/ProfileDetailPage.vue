@@ -275,7 +275,7 @@ function editProfile() {
   });
 }
 
-async function goBack() {
+function goBack() {
   router.go(-1);
 }
 </script>

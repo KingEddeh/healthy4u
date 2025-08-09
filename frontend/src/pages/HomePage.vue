@@ -34,6 +34,8 @@
         transition-next="slide-left"
         swipeable
         animated
+        autoplay
+        :autoplay-delay="5000"
         control-color="primary"
         prev-icon="arrow_left"
         next-icon="arrow_right"
@@ -41,7 +43,7 @@
         navigation
         padding
         arrows
-        height="140px"
+        height="100px"
         class="info-carousel bg-primary text-white shadow-1 rounded-borders"
       >
         <q-carousel-slide
@@ -125,8 +127,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
-import type { UserPayload } from '../types/data';
+import { ref, onMounted } from 'vue';
+import type { UserPayload, MedicalRecordData } from '../types/data';
 
 // Current user data
 const currentUser = ref<UserPayload | null>(null);
@@ -222,6 +224,20 @@ const handleItemClick = (item: { name: string; title: string; message: string; i
   }
 };
 
+// Helper function to create empty medical record
+const createEmptyMedicalRecord = (): MedicalRecordData => ({
+  date_of_birth: '',
+  sex: '',
+  allergies: '',
+  current_medications: '',
+  past_medical_history: '',
+  family_medical_history: '',
+  immunization_history: '',
+  blood_type: '',
+  height_cm: null,
+  weight_kg: null
+});
+
 // Load current user from localStorage on component mount
 onMounted(() => {
   const userData = localStorage.getItem('currentUser');
@@ -244,7 +260,7 @@ onMounted(() => {
         email: 'default@example.com',
         password: '',
         user_type: 'patient',
-        medical_record: {} as any,
+        medical_record: createEmptyMedicalRecord(),
         name: 'Siyam Ahamed!',
         avatar: 'https://placehold.co/100x100/E6F2FF/333333?text=SA'
       } as UserPayload;
@@ -258,7 +274,7 @@ onMounted(() => {
       email: 'default@example.com',
       password: '',
       user_type: 'patient',
-      medical_record: {} as any,
+      medical_record: createEmptyMedicalRecord(),
       name: 'Siyam Ahamed!',
       avatar: 'https://placehold.co/100x100/E6F2FF/333333?text=SA'
     } as UserPayload;
@@ -277,7 +293,7 @@ onMounted(() => {
   border-radius: 12px;
 
   .q-carousel__slide {
-    padding: 16px 24px;
+    padding: 12px 20px;
     transition: all 0.3s ease;
     
     &:hover {
