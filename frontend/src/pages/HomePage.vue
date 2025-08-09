@@ -4,10 +4,10 @@
     <header class="row items-center justify-between q-mb-md">
       <div>
         <p class="q-ma-none text-grey-9 text-body1">Hello,</p>
-        <p class="q-ma-none text-h5 text-bold text-black">Siyam Ahamed!</p>
+        <p class="q-ma-none text-h5 text-bold text-black">{{ currentUser ? `${currentUser.first_name} ${currentUser.last_name}` : 'Juan Dela Cruz' }}</p>
       </div>
-      <q-avatar size="52px">
-        <img :src="'https://placehold.co/100x100/E6F2FF/333333?text=SA'">
+      <q-avatar size="52px" color="primary" text-color="white">
+        <q-icon name="person" size="30px" />
       </q-avatar>
     </header>
 
@@ -246,8 +246,6 @@ onMounted(() => {
       const parsedUser = JSON.parse(userData);
       currentUser.value = {
         ...parsedUser,
-        name: parsedUser.first_name ? `${parsedUser.first_name} ${parsedUser.last_name || ''}`.trim() : 'Siyam Ahamed!',
-        avatar: parsedUser.avatar || 'https://placehold.co/100x100/E6F2FF/333333?text=SA'
       };
     } catch (error) {
       console.error('Error parsing user data:', error);
@@ -255,28 +253,24 @@ onMounted(() => {
       // Set default user data
       currentUser.value = {
         id: 'default',
-        first_name: 'Siyam',
-        last_name: 'Ahamed!',
+        first_name: 'Juan',
+        last_name: 'Dela Cruz',
         email: 'default@example.com',
         password: '',
         user_type: 'patient',
         medical_record: createEmptyMedicalRecord(),
-        name: 'Siyam Ahamed!',
-        avatar: 'https://placehold.co/100x100/E6F2FF/333333?text=SA'
       } as UserPayload;
     }
   } else {
     // Set default user data if no user in localStorage
     currentUser.value = {
       id: 'default',
-      first_name: 'Siyam',
-      last_name: 'Ahamed!',
+      first_name: 'Juan',
+      last_name: 'Dela Cruz',
       email: 'default@example.com',
       password: '',
       user_type: 'patient',
       medical_record: createEmptyMedicalRecord(),
-      name: 'Siyam Ahamed!',
-      avatar: 'https://placehold.co/100x100/E6F2FF/333333?text=SA'
     } as UserPayload;
   }
 });

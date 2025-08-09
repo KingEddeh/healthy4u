@@ -3,8 +3,8 @@
 
     <q-header v-if="showHeader" bordered class="custom-header-border q-pa-xs" style="background-color: #E1DBCA;">
       <q-toolbar>
-        <q-avatar class="glossy" color="primary" text-color="accent" rounded size="35px">
-          <q-icon name="favorite_border" size="25px" />
+        <q-avatar class="glossy" rounded size="35px">
+          <img src="../assets/logo.jpg" alt="CuraLink Logo" />
         </q-avatar>
         <q-toolbar-title class="text-weight-bold text-dark" style="font-size: xx-large;">
           <span style="font-family: 'Zain', sans-serif; font-weight: 900; color: black;">Cura</span><span class="text-primary " style="font-family: 'Zain', sans-serif; font-weight: 900;">Link</span>
@@ -98,9 +98,9 @@
 
     <q-footer v-if="showFooter" flat class="bg-secondary text-white">
       <q-toolbar class="footer-nav">
+        <q-btn round size="lg" color="primary" icon="qr_code_2" class="qr-btn" @click="navigate('qr')" />
         <q-btn flat stack no-caps class="footer-btn" icon="home" :label="$q.screen.width > 350 ? 'Home' : ''" @click="navigate('home')" />
         <q-btn flat stack no-caps class="footer-btn" icon="folder" :label="$q.screen.width > 350 ? 'Documents' : ''" @click="navigate('documents')" />
-        <q-btn round size="lg" color="primary" icon="qr_code_2" class="qr-btn" @click="navigate('qr')" />
         <q-btn flat stack no-caps class="footer-btn" icon="people" :label="$q.screen.width > 350 ? 'Profiles' : ''" @click="navigate('profiles')" />
         <q-btn flat stack no-caps class="footer-btn" icon="rate_review" :label="$q.screen.width > 350 ? 'Reviews' : ''" @click="navigateToHospitalReviews" />
         <q-btn flat stack no-caps class="footer-btn" icon="menu" :label="$q.screen.width > 350 ? 'Menu' : ''" @click="navigate('menu')" />
