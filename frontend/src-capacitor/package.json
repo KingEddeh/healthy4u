@@ -1,0 +1,13 @@
+{
+  "name": "frontend",
+  "version": "0.0.1",
+  "description": "Frontend for Healthy4U",
+  "author": "KingEddeh <28296038+KingEddeh@users.noreply.github.com>",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "^7.4.2",
+    "@capacitor/app": "^7.0.0",
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/core": "^7.0.0"
+  }
+}
