@@ -1,19 +1,71 @@
-[![wakatime](https://wakatime.com/badge/user/4b23a1cb-b0f4-4779-9d31-ae93ddb17d3e/project/a23dc2ca-83b4-40e2-a410-352519a932b3.svg)](https://wakatime.com/badge/user/4b23a1cb-b0f4-4779-9d31-ae93ddb17d3e/project/a23dc2ca-83b4-40e2-a410-352519a932b3)
-# healthy4u
-Healthy4U Prototype website for Scholar's Technopreneurship Training Program DOST
+# Healthy4U
 
-## First time setup
+A Quasar-based mobile application for health management, featuring QR code scanning, user profiles, and document tracking to promote a healthy lifestyle.
 
-#### Backend
-1. from root project folder, do 'cd backend'
-2. create environment, 'python -m venv venv'
-3. activate environment, 'venv\scripts\activate'
-4. install dependencies 'pip install -r requirements.txt'
-5. initialize database 'python manage.py makemigrations' and 'python manage.py migrate'
-6. create a user 'python manage.py createsuperuser'
-7. start the server 'python manage.py runserver'
+## ✨ Key Features
 
-#### Frontend
-1. from root project folder, do 'cd frontend'
-2. 'npm install' to install dependencies
-3. 'npx quasar dev' to run quasar SPA
+- **User Authentication**: Secure registration and sign-in for personalized access.
+- **Profile Management**: Create and manage detailed health profiles, including personal details and history.
+- **QR Code Scanning**: Scan QR codes to quickly access health-related data, recipes, or product information.
+- **Document Management**: Store, view, and organize important health documents and records.
+- **Mobile-First Design**: Optimized for mobile devices with Capacitor for native app deployment.
+
+## ⚙️ Tech Stack
+
+- **Frontend**: Vue.js, Quasar Framework
+- **Language**: TypeScript
+- **Mobile**: Capacitor
+- **Build Tools**: Vite, PostCSS
+- **Styling**: SCSS
+- **Linting**: ESLint
+
+## 🚀 Quick Start Guide
+
+### Prerequisites
+
+- Node.js 16 or higher
+- npm (Node package manager)
+
+### Clone Repository
+
+```bash
+git clone https://github.com/KingEddeh/healthy4u.git
+```
+
+### Navigate to Directory
+
+```bash
+cd healthy4u/frontend
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Run the Application
+
+```bash
+npx quasar dev
+```
+
+### For Mobile Build
+
+```bash
+npx quasar build -m capacitor -T android
+```
+
+Then, follow Capacitor setup instructions for Android/iOS deployment.
+
+## 🏃 Usage
+
+- Sign up or sign in to access personalized features.
+- Navigate to the Profiles section to create and manage your health profile.
+- Use the QR Scanner page to scan codes for instant health information.
+- Access the Documents page to upload and view health-related files.
+- Explore the Menu for quick navigation to different app sections.
+
+### Example: Scanning a QR Code
+
+To scan a QR code, go to the QR Scanner page, allow camera permissions, and point at a QR code to retrieve data.
