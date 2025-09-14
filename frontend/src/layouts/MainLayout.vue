@@ -7,7 +7,7 @@
           <img src="../assets/logo.jpg" alt="SiguraDok Logo" />
         </q-avatar>
         <q-toolbar-title class="text-weight-bold text-dark" style="font-size: xx-large;">
-          <span style="font-family: 'Zain', sans-serif; font-weight: 900; color: black;">Cura</span><span class="text-primary " style="font-family: 'Zain', sans-serif; font-weight: 900;">Link</span>
+          <span style="font-family: 'Zain', sans-serif; font-weight: 900; color: black;">Sigura</span><span class="text-primary " style="font-family: 'Zain', sans-serif; font-weight: 900;">Doc</span>
         </q-toolbar-title>
         <q-btn flat dense round color="black" icon="menu" class="q-ml-auto" @click="drawer = !drawer" />
       </q-toolbar>
