@@ -211,7 +211,7 @@ function handleScannedData(data: MedicalQRData) {
   } else {
     $q.notify({
       type: 'negative',
-      message: 'Invalid CuraLink medical QR code',
+      message: 'Invalid SiguraDok medical QR code',
       position: 'top'
     });
   }

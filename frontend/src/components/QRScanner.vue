@@ -4,7 +4,7 @@
       <q-icon name="qr_code_scanner" size="40px" color="primary" />
       <h5 class="q-mt-sm q-mb-none">Scan Medical QR Code</h5>
       <p class="text-grey-6 q-mb-none">
-        Point your camera at a CuraLink medical QR code
+        Point your camera at a SiguraDok medical QR code
       </p>
     </div>
 
@@ -164,7 +164,7 @@ function handleScanResult(data: string) {
     } else {
       $q.notify({
         type: 'warning',
-        message: 'This QR code does not contain valid CuraLink medical data',
+        message: 'This QR code does not contain valid SiguraDok medical data',
         position: 'top'
       });
     }

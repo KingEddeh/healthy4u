@@ -149,7 +149,7 @@ async function shareQR() {
       const file = new File([blob], 'medical-qr-code.png', { type: 'image/png' });
       
       await navigator.share({
-        title: 'CuraLink Medical QR Code',
+        title: 'SiguraDok Medical QR Code',
         text: 'My medical information QR code',
         files: [file]
       });
@@ -182,7 +182,7 @@ function downloadQR() {
 
   try {
     const link = document.createElement('a');
-    link.download = `curalink-medical-qr-${new Date().getTime()}.png`;
+    link.download = `SiguraDok-medical-qr-${new Date().getTime()}.png`;
     link.href = qrCodeDataURL.value;
     document.body.appendChild(link);
     link.click();

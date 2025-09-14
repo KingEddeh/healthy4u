@@ -61,13 +61,13 @@ export const useQRStore = defineStore('qr', () => {
   }
 
   /**
-   * Validate if a scanned QR code contains valid CuraLink medical data
+   * Validate if a scanned QR code contains valid SiguraDok medical data
    */
   function validateMedicalQRData(data: string): MedicalQRData | null {
     try {
       const parsed = JSON.parse(data);
       
-      // Check if it has the required CuraLink medical data structure
+      // Check if it has the required SiguraDok medical data structure
       if (
         parsed.id &&
         parsed.name &&

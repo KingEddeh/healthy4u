@@ -4,7 +4,7 @@
     <q-header v-if="showHeader" bordered class="custom-header-border q-pa-xs" style="background-color: #E1DBCA;">
       <q-toolbar>
         <q-avatar class="glossy" rounded size="35px">
-          <img src="../assets/logo.jpg" alt="CuraLink Logo" />
+          <img src="../assets/logo.jpg" alt="SiguraDok Logo" />
         </q-avatar>
         <q-toolbar-title class="text-weight-bold text-dark" style="font-size: xx-large;">
           <span style="font-family: 'Zain', sans-serif; font-weight: 900; color: black;">Cura</span><span class="text-primary " style="font-family: 'Zain', sans-serif; font-weight: 900;">Link</span>

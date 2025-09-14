@@ -10,7 +10,7 @@
       <div class="text-center">
         <h4 class="text-h4 q-mt-md q-mb-sm">Menu</h4>
         <p class="text-grey-6 q-mb-lg">
-          Access all CuraLink features and settings from here.
+          Access all SiguraDok features and settings from here.
         </p>
         
         <!-- Main Menu Items -->

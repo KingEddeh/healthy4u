@@ -1,6 +1,6 @@
 # QR Code Medical Information System
 
-The CuraLink app includes a comprehensive QR code system for sharing and scanning medical information securely.
+The SiguraDok app includes a comprehensive QR code system for sharing and scanning medical information securely.
 
 ## Features
 
@@ -16,7 +16,7 @@ The CuraLink app includes a comprehensive QR code system for sharing and scannin
 ### QR Code Scanning
 - **Camera Integration**: Uses device camera to scan QR codes
 - **Real-time Scanning**: Live camera feed with visual scanning frame
-- **Data Validation**: Validates that scanned codes contain proper CuraLink medical data
+- **Data Validation**: Validates that scanned codes contain proper SiguraDok medical data
 - **Error Handling**: Provides feedback for invalid or non-medical QR codes
 
 ### Security & Privacy
@@ -40,7 +40,7 @@ The CuraLink app includes a comprehensive QR code system for sharing and scannin
 ### Scanning QR Codes
 1. Click "Scan QR Code" button from QR page
 2. Allow camera permissions when prompted
-3. Point camera at a CuraLink medical QR code
+3. Point camera at a SiguraDok medical QR code
 4. View decoded medical information in structured format
 
 ### Medical Information Display
