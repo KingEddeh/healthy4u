@@ -1,13 +1,13 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header v-if="showHeader" bordered class="custom-header-border q-pa-xs" style="background-color: #E1DBCA;">
+    <q-header v-if="showHeader" bordered class="custom-header-border q-pa-xs">
       <q-toolbar>
         <q-avatar class="glossy" rounded size="35px">
           <img src="../assets/logo.jpg" alt="SiguraDok Logo" />
         </q-avatar>
         <q-toolbar-title class="text-weight-bold text-dark" style="font-size: xx-large;">
-          <span style="font-family: 'Zain', sans-serif; font-weight: 900; color: black;">Sigura</span><span class="text-primary " style="font-family: 'Zain', sans-serif; font-weight: 900;">Doc</span>
+          <span style="font-family: 'Zain', sans-serif; font-weight: 900;" class="text-accent">Sigura</span><span class="text-secondary" style="font-family: 'Zain', sans-serif; font-weight: 900;">Doc</span>
         </q-toolbar-title>
         <q-btn flat dense round color="black" icon="menu" class="q-ml-auto" @click="drawer = !drawer" />
       </q-toolbar>
@@ -172,9 +172,9 @@ function navigateToHospitalReviews() {
   padding: 0 4px;
 }
 
-.footer-btn { 
-  color: white; 
-  font-size: 0.7rem; 
+.footer-btn {
+  color: white;
+  font-size: 0.7rem;
   justify-self: center;
   min-width: 0;
   padding: 8px 4px;
@@ -184,7 +184,7 @@ function navigateToHospitalReviews() {
   transform: translateY(-40%);
   transition: transform 0.2s ease-in-out;
   justify-self: center;
-  
+
   @media (hover: hover) {
     &:hover { transform: translateY(-40%) scale(1.05); }
   }

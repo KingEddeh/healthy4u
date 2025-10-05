@@ -1,12 +1,12 @@
 <template>
   <q-page class="qr-scanner-page">
     <!-- QR Scanner Component -->
-    <QRScanner 
-      v-if="!scannedData" 
+    <QRScanner
+      v-if="!scannedData"
       @close="goBack"
       @scanned="handleScannedData"
     />
-    
+
     <!-- Medical Data Display -->
     <div v-else class="medical-data-display">
       <div class="q-pa-md">
@@ -28,7 +28,7 @@
               <q-icon name="person" class="q-mr-sm" />
               Patient Information
             </div>
-            
+
             <div class="row q-gutter-md">
               <div class="col-12 col-sm-6">
                 <q-item dense>
@@ -38,7 +38,7 @@
                   </q-item-section>
                 </q-item>
               </div>
-              
+
               <div class="col-12 col-sm-6">
                 <q-item dense>
                   <q-item-section>
@@ -58,7 +58,7 @@
               <q-icon name="local_hospital" class="q-mr-sm" />
               Medical Records
             </div>
-            
+
             <div class="medical-info-grid">
               <div class="medical-info-item" v-if="scannedData.emergency_contact.date_of_birth">
                 <q-item dense>
@@ -161,18 +161,18 @@
 
         <!-- Action Buttons -->
         <div class="q-gutter-sm">
-          <q-btn 
-            color="primary" 
-            label="Scan Another QR Code" 
+          <q-btn
+            color="primary"
+            label="Scan Another QR Code"
             icon="qr_code_scanner"
             class="full-width q-mb-sm"
             @click="resetScanner"
           />
-          
-          <q-btn 
+
+          <q-btn
             outline
-            color="primary" 
-            label="Back to Home" 
+            color="primary"
+            label="Back to Home"
             icon="home"
             class="full-width"
             @click="goHome"
@@ -187,8 +187,8 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
-import QRScanner from '../components/QRScanner.vue';
-import { useQRStore, type MedicalQRData } from '../stores/qr-store';
+import QRScanner from 'components/QRScanner.vue';
+import { useQRStore, type MedicalQRData } from '../../stores/qr-store';
 
 const router = useRouter();
 const $q = useQuasar();
@@ -199,10 +199,10 @@ const scannedData = ref<MedicalQRData | null>(null);
 function handleScannedData(data: MedicalQRData) {
   // Validate the data using the store
   const validatedData = qrStore.validateMedicalQRData(JSON.stringify(data));
-  
+
   if (validatedData) {
     scannedData.value = validatedData;
-    
+
     $q.notify({
       type: 'positive',
       message: `Medical data loaded for ${validatedData.name}`,
@@ -283,11 +283,11 @@ function formatDateTime(dateTimeString: string): string {
 .medical-expansion {
   border-radius: 8px;
   overflow: hidden;
-  
+
   :deep(.q-expansion-item__toggle-icon) {
     color: #00b0b0;
   }
-  
+
   :deep(.q-expansion-item__container) {
     border: 1px solid #e0e0e0;
     border-radius: 8px;

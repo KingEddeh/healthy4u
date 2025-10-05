@@ -187,7 +187,7 @@ import { ref, reactive } from 'vue';
 import { useQuasar, QStepper } from 'quasar';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'vue-router';
-import type { RegistrationFormData, UserPayload } from '../types/data';
+import type { RegistrationFormData, UserPayload } from '../../types/data';
 
 // Initialize the router instance
 const router = useRouter();

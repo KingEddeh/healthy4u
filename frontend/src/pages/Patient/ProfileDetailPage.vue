@@ -205,7 +205,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
-import type { UserPayload } from '../types/data';
+import type { UserPayload } from '../../types/data';
 
 const router = useRouter();
 const $q = useQuasar();

@@ -4,7 +4,7 @@
     <header class="row items-center justify-between q-mb-md">
       <div>
         <p class="q-ma-none text-grey-9 text-body1">Hello,</p>
-        <p class="q-ma-none text-h5 text-bold text-black">{{ currentUser ? `${currentUser.first_name} ${currentUser.last_name}` : 'Juan Dela Cruz' }}</p>
+  <p class="q-ma-none text-h5 text-bold text-black">{{ currentUser ? `${currentUser.first_name} ${currentUser.last_name}` : 'Mark Santos' }}</p>
       </div>
       <q-avatar size="52px" color="primary" text-color="white">
         <q-icon name="person" size="30px" />
@@ -21,7 +21,7 @@
       bg-color="white"
     >
       <template v-slot:prepend>
-        <q-icon name="search" class="q-ml-sm" />
+        <q-icon name="smart_toy" class="q-ml-sm" />
       </template>
     </q-input>
 
@@ -98,6 +98,34 @@
       </q-card>
     </section>
 
+    <!-- Simulate Card Tap Button -->
+    <div class="q-mb-lg flex flex-center">
+      <q-btn color="primary" label="Simulate card tap" @click="showSimModal = true" />
+    </div>
+
+    <!-- Simulate Card Tap Modal -->
+    <q-dialog v-model="showSimModal">
+      <q-card style="min-width: 340px; max-width: 95vw;">
+        <q-card-section class="row items-center q-pb-none">
+          <q-avatar icon="account_circle" color="primary" text-color="white" size="48px" class="q-mr-md" />
+          <div>
+            <div class="text-h6 text-bold">Account Details</div>
+            <div class="text-caption text-grey-7">Simulated card tap</div>
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <div class="q-mb-sm"><span class="text-bold">Name:</span> John Doe</div>
+          <div class="q-mb-sm"><span class="text-bold">Account #:</span> 1234567890</div>
+          <div class="q-mb-sm"><span class="text-bold">Type:</span> Patient</div>
+          <div class="q-mb-sm"><span class="text-bold">Email:</span> johndoe@email.com</div>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Okay" color="primary" v-close-popup />
+          <q-btn flat label="Add to records" color="positive" @click="addToRecords" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
     <!-- Recent Visits Section -->
     <section>
       <header class="row items-center justify-between q-mb-sm">
@@ -128,12 +156,17 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import type { UserPayload, MedicalRecordData } from '../types/data';
+import { useQuasar } from 'quasar';
+import type { UserPayload, MedicalRecordData } from '../../types/data';
 
 // Current user data
 const currentUser = ref<UserPayload | null>(null);
 const searchQuery = ref('');
-const searchPlaceholder = 'Search Doctor';
+const searchPlaceholder = 'Ask SiguraDoc AI: Describe your symptoms or health questions…';
+
+// Simulate Card Tap Modal
+const showSimModal = ref(false);
+const $q = useQuasar();
 
 // Carousel data
 const carouselSlide = ref('healthDataReminder'); // Set to first notification name
@@ -173,43 +206,43 @@ const notifications = ref([
 // Upcoming appointment data
 const upcomingAppointment = ref({
   doctor: {
-    name: 'Dr. Evelyn Reed',
-    avatar: 'https://placehold.co/150x150/D6E4FF/333333?text=ER'
+    name: 'Dr. Liza Dela Cruz',
+    avatar: 'https://placehold.co/150x150/D6E4FF/333333?text=LC'
   },
   title: 'Cardiology Check-up',
   specialty: 'Cardiology',
   day: '12',
-  month: 'AUG',
-  date: 'Wed, 12 Aug 2024',
+  month: 'AGO',
+  date: 'Miy, 12 Ago 2024',
   time: '10:30 AM',
-  location: 'St. Luke\'s Medical Center'
+  location: 'PGH Manila'
 });
 
 // Recent visits data
 const recentVisits = ref([
   {
     doctor: {
-      name: 'Dr. Warner',
-      avatar: 'https://placehold.co/150x150/D6E4FF/333333?text=DW'
+      name: 'Dr. Carlo Ramos',
+      avatar: 'https://placehold.co/150x150/D6E4FF/333333?text=CR'
     },
     specialty: 'Neurology',
-    experience: '5 years experience'
+    experience: '5 taon karanasan'
   },
   {
     doctor: {
-      name: 'Dr. Steave',
-      avatar: 'https://placehold.co/150x150/333333/E6F2FF?text=DS'
+      name: 'Dr. Ana Bautista',
+      avatar: 'https://placehold.co/150x150/333333/E6F2FF?text=AB'
     },
     specialty: 'Cardiology',
-    experience: '7 years experience'
+    experience: '7 taon karanasan'
   },
   {
     doctor: {
-      name: 'Dr. Riya',
-      avatar: 'https://placehold.co/150x150/D6E4FF/333333?text=DR'
+      name: 'Dr. Miguel Cruz',
+      avatar: 'https://placehold.co/150x150/D6E4FF/333333?text=MC'
     },
     specialty: 'Orthopedics',
-    experience: '3 years experience'
+    experience: '3 taon karanasan'
   }
 ]);
 
@@ -222,6 +255,16 @@ const handleItemClick = (item: { name: string; title: string; message: string; i
   } else {
     console.log(`Clicked on item with no action: ${item.title}`);
   }
+};
+
+// Add to records handler
+const addToRecords = () => {
+  $q.notify({
+    type: 'positive',
+    message: 'Account added to records! (Simulated)',
+    timeout: 2000
+  });
+  showSimModal.value = false;
 };
 
 // Helper function to create empty medical record
@@ -253,8 +296,8 @@ onMounted(() => {
       // Set default user data
       currentUser.value = {
         id: 'default',
-        first_name: 'Juan',
-        last_name: 'Dela Cruz',
+        first_name: 'Mark',
+        last_name: 'Santos',
         email: 'default@example.com',
         password: '',
         user_type: 'patient',
@@ -289,7 +332,7 @@ onMounted(() => {
   .q-carousel__slide {
     padding: 12px 20px;
     transition: all 0.3s ease;
-    
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -301,7 +344,7 @@ onMounted(() => {
       color: white;
       margin: 0 4px;
     }
-    
+
     .q-btn--active {
       background-color: white;
       color: #00b0b0;
@@ -330,7 +373,7 @@ onMounted(() => {
   border-radius: 12px;
   border-color: #F0F0F0;
   transition: transform 0.2s ease;
-  
+
   &:hover {
     transform: translateY(-2px);
   }
@@ -356,7 +399,7 @@ onMounted(() => {
     flex-direction: row;
     justify-content: space-between;
     gap: 8px;
-    
+
     .q-btn {
       flex: 1;
     }

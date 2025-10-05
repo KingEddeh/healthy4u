@@ -6,27 +6,24 @@
           <q-icon name="qr_code_2" size="40px" />
         </q-avatar>
       </div>
-      
+
       <div class="text-center">
         <h4 class="text-h4 q-mt-md q-mb-sm">QR Code Access</h4>
-        <p class="text-grey-6 q-mb-lg">
-          WAG NIYO SABIHIN NA DI GUMANA PLS HUHUHUH GINAGAWA KO PA KAGABI PA AYAW PARIN AAAAAA.
-        </p>
-        
+
         <q-card class="q-mb-lg qr-card">
           <q-card-section class="text-center">
             <div class="qr-placeholder q-mb-md">
-              <img 
-                v-if="qrCodeDataURL" 
-                :src="qrCodeDataURL" 
+              <img
+                v-if="qrCodeDataURL"
+                :src="qrCodeDataURL"
                 alt="Medical QR Code"
                 class="qr-image"
               />
-              <q-icon 
-                v-else 
-                name="qr_code_2" 
-                size="120px" 
-                color="primary" 
+              <q-icon
+                v-else
+                name="qr_code_2"
+                size="120px"
+                color="primary"
               />
             </div>
             <div class="text-h6 q-mb-xs">Your Medical QR Code</div>
@@ -37,46 +34,46 @@
         </q-card>
 
         <div class="q-gutter-sm q-mb-lg">
-          <q-btn 
-            color="primary" 
-            label="Generate New Code" 
+          <q-btn
+            color="primary"
+            label="Generate New Code"
             icon="refresh"
             class="full-width q-mb-sm"
             @click="generateQR"
           />
-          
-          <q-btn 
-            color="secondary" 
-            label="Scan QR Code" 
+
+          <q-btn
+            color="secondary"
+            label="Scan QR Code"
             icon="qr_code_scanner"
             class="full-width q-mb-sm"
             @click="goToScanner"
           />
-          
-          <q-btn 
-            color="positive" 
-            label="Share Code" 
+
+          <q-btn
+            color="positive"
+            label="Share Code"
             icon="share"
             class="full-width q-mb-sm"
             @click="shareQR"
             :disable="!qrCodeDataURL"
           />
-          
-          <q-btn 
+
+          <q-btn
             outline
-            color="primary" 
-            label="Download QR Code" 
+            color="primary"
+            label="Download QR Code"
             icon="download"
             class="full-width"
             @click="downloadQR"
             :disable="!qrCodeDataURL"
           />
         </div>
-        
-        <q-btn 
-          flat 
-          color="primary" 
-          label="Back to Home" 
+
+        <q-btn
+          flat
+          color="primary"
+          label="Back to Home"
           @click="goHome"
         />
       </div>
@@ -88,8 +85,8 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
-import { useQRStore } from '../stores/qr-store';
-import type { UserPayload } from '../types/data';
+import { useQRStore } from '../../stores/qr-store';
+import type { UserPayload } from '../../types/data';
 
 const router = useRouter();
 const $q = useQuasar();
@@ -116,7 +113,7 @@ async function generateQR() {
     // Use the QR store to generate QR code
     const dataURL = await qrStore.generateQRFromUser(userData.value);
     qrCodeDataURL.value = dataURL;
-    
+
     $q.notify({
       type: 'positive',
       message: 'New QR code generated successfully!',
@@ -147,7 +144,7 @@ async function shareQR() {
       // Use the store method to generate blob
       const blob = await qrStore.generateQRBlob(userData.value);
       const file = new File([blob], 'medical-qr-code.png', { type: 'image/png' });
-      
+
       await navigator.share({
         title: 'SiguraDok Medical QR Code',
         text: 'My medical information QR code',

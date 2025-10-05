@@ -5,61 +5,61 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { 
+      {
         path: '',
-        meta: { showHeader: true, showFooter: false }, 
-        component: () => import('pages/IndexPage.vue') 
+        meta: { showHeader: true, showFooter: false },
+          component: () => import('pages/Patient/IndexPage.vue')
       },
-      { 
-        path: 'register', 
-        meta: { showHeader: true, showFooter: false }, 
-        component: () => import('pages/RegisterPage.vue') 
+      {
+        path: 'register',
+        meta: { showHeader: true, showFooter: false },
+        component: () => import('pages/Patient/RegisterPage.vue')
       },
       {
         path: 'signin',
         meta: { showHeader: true, showFooter: false },
-        component: () => import('pages/SignInPage.vue')
+        component: () => import('pages/Patient/SignInPage.vue')
       },
       {
         path: 'profile-detail',
         meta: { showHeader: true, showFooter: true },
-        component: () => import('pages/ProfileDetailPage.vue')
+        component: () => import('pages/Patient/ProfileDetailPage.vue')
       },
-      { 
-        path: 'home', 
+      {
+        path: 'home',
         name: 'home',
-        meta: { showHeader: true, showFooter: true }, 
-        component: () => import('pages/HomePage.vue') 
+        meta: { showHeader: true, showFooter: true },
+        component: () => import('pages/Patient/HomePage.vue')
       },
       {
         path: 'documents',
         name: 'documents',
         meta: { showHeader: true, showFooter: true },
-        component: () => import('pages/DocumentsPage.vue')
+        component: () => import('pages/Patient/DocumentsPage.vue')
       },
       {
         path: 'qr',
         name: 'qr',
         meta: { showHeader: true, showFooter: true },
-        component: () => import('pages/QRPage.vue')
+        component: () => import('pages/Patient/QRPage.vue')
       },
       {
         path: 'qr-scanner',
         name: 'qr-scanner',
         meta: { showHeader: false, showFooter: false },
-        component: () => import('pages/QRScannerPage.vue')
+        component: () => import('pages/Patient/QRScannerPage.vue')
       },
       {
         path: 'profiles',
         name: 'profiles',
         meta: { showHeader: true, showFooter: true },
-        component: () => import('pages/ProfilesPage.vue')
+        component: () => import('pages/Patient/ProfilesPage.vue')
       },
       {
         path: 'menu',
         name: 'menu',
         meta: { showHeader: true, showFooter: true },
-        component: () => import('pages/MenuPage.vue')
+        component: () => import('pages/Patient/MenuPage.vue')
       },
     ],
   },
@@ -68,7 +68,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    component: () => import('pages/Patient/ErrorNotFound.vue'),
   },
 ];
 

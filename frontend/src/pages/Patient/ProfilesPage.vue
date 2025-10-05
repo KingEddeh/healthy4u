@@ -6,13 +6,13 @@
           <q-icon name="people" size="40px" />
         </q-avatar>
       </div>
-      
+
       <div class="text-center">
         <h4 class="text-h4 q-mt-md q-mb-sm">Health Profiles</h4>
         <p class="text-grey-6 q-mb-lg">
           Manage multiple health profiles for family members and dependents.
         </p>
-        
+
         <!-- Current User Profile -->
         <q-card class="q-mb-md profile-card-primary" clickable @click="viewProfileDetail">
           <q-card-section>
@@ -58,11 +58,11 @@
             />
           </q-card-section>
         </q-card>
-        
-        <q-btn 
-          flat 
-          color="primary" 
-          label="Back to Home" 
+
+        <q-btn
+          flat
+          color="primary"
+          label="Back to Home"
           @click="goHome"
         />
       </div>
@@ -86,8 +86,8 @@ const router = useRouter();
 const $q = useQuasar();
 
 const familyProfiles = ref<FamilyProfile[]>([
-  { id: 1, name: 'Emma Johnson', relationship: 'Spouse', icon: 'person' },
-  { id: 2, name: 'Alex Johnson', relationship: 'Child', icon: 'child_care' },
+  { id: 1, name: 'Maria Santos', relationship: 'Asawa', icon: 'person' },
+  { id: 2, name: 'Pedro Santos', relationship: 'Anak', icon: 'child_care' },
 ]);
 
 async function goHome() {
