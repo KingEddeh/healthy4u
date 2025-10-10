@@ -4,12 +4,17 @@
     <q-header v-if="showHeader" bordered class="custom-header-border q-pa-xs">
       <q-toolbar>
         <q-avatar class="glossy" rounded size="35px">
-          <img src="../assets/logo.jpg" alt="SiguraDok Logo" />
+          <img src="../assets/logo.jpg" alt="CuraLink Logo" />
         </q-avatar>
-        <q-toolbar-title class="text-weight-bold text-dark" style="font-size: xx-large;">
-          <span style="font-family: 'Zain', sans-serif; font-weight: 900;" class="text-accent">Sigura</span><span class="text-secondary" style="font-family: 'Zain', sans-serif; font-weight: 900;">Doc</span>
+        <q-toolbar-title class="text-weight-bold">
+          CuraLink
         </q-toolbar-title>
-        <q-btn flat dense round color="black" icon="menu" class="q-ml-auto" @click="drawer = !drawer" />
+        <div class="row q-gutter-sm">
+          <q-btn flat round dense color="white" icon="notifications">
+            <q-badge color="red" floating rounded>2</q-badge>
+          </q-btn>
+          <q-btn flat round dense color="white" icon="menu" @click="drawer = !drawer" />
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -96,14 +101,12 @@
       <router-view />
     </q-page-container>
 
-    <q-footer v-if="showFooter" flat class="bg-secondary text-white">
+    <q-footer v-if="showFooter" flat class="bg-white text-primary">
       <q-toolbar class="footer-nav">
-        <q-btn round size="lg" color="primary" icon="qr_code_2" class="qr-btn" @click="navigate('qr')" />
-        <q-btn flat stack no-caps class="footer-btn" icon="home" :label="$q.screen.width > 350 ? 'Home' : ''" @click="navigate('home')" />
-        <q-btn flat stack no-caps class="footer-btn" icon="folder" :label="$q.screen.width > 350 ? 'Documents' : ''" @click="navigate('documents')" />
-        <q-btn flat stack no-caps class="footer-btn" icon="people" :label="$q.screen.width > 350 ? 'Profiles' : ''" @click="navigate('profiles')" />
-        <q-btn flat stack no-caps class="footer-btn" icon="rate_review" :label="$q.screen.width > 350 ? 'Reviews' : ''" @click="navigateToHospitalReviews" />
-        <q-btn flat stack no-caps class="footer-btn" icon="menu" :label="$q.screen.width > 350 ? 'Menu' : ''" @click="navigate('menu')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="home" label="Home" @click="navigate('home')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="folder" label="Records" @click="navigate('documents')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="chat" label="Chatbot" @click="() => router.push('/home')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="person" label="Profile" @click="navigate('profiles')" />
       </q-toolbar>
     </q-footer>
     </q-layout>
@@ -112,11 +115,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useQuasar } from 'quasar';
 
 const route = useRoute();
 const router = useRouter();
-const $q = useQuasar();
 
 const drawer = ref(false);
 
@@ -135,24 +136,6 @@ async function navigate(routeName: string) {
   }
 }
 
-/**
- * Navigates to the hospital reviews page.
- */
-function navigateToHospitalReviews() {
-  try {
-    // For now, show a notification as the feature is coming soon
-    $q.notify({
-      type: 'info',
-      message: 'Hospital Reviews feature coming soon!',
-      position: 'top',
-      timeout: 2000
-    });
-    // When the page is ready, use this instead:
-    // await router.push('/hospital-reviews');
-  } catch (error) {
-    console.error('Navigation to hospital reviews failed:', error);
-  }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -165,28 +148,24 @@ function navigateToHospitalReviews() {
 
 .footer-nav {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   align-items: center;
   gap: 4px;
   min-width: 320px;
   padding: 0 4px;
+  border-top: 1px solid #f0f0f0;
 }
 
 .footer-btn {
-  color: white;
-  font-size: 0.7rem;
+  color: var(--q-primary);
+  font-size: 0.75rem;
   justify-self: center;
   min-width: 0;
   padding: 8px 4px;
-}
 
-.qr-btn {
-  transform: translateY(-40%);
-  transition: transform 0.2s ease-in-out;
-  justify-self: center;
-
-  @media (hover: hover) {
-    &:hover { transform: translateY(-40%) scale(1.05); }
+  &.q-btn--active {
+    color: var(--q-primary);
+    font-weight: 500;
   }
 }
 

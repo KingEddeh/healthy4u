@@ -55,17 +55,17 @@
 
     <!-- Main Navigation Grid -->
     <div class="main-nav-grid q-mt-md">
-      <q-btn class="grid-btn" color="primary" to="/qr">
+      <q-btn class="grid-btn" color="primary" to="/qr-page">
         <q-icon name="qr_code" size="24px" />
         <div class="q-mt-sm">My QR/Health Card</div>
       </q-btn>
       
-      <q-btn class="grid-btn" color="secondary" to="/appointments/book">
+      <q-btn class="grid-btn text-black" color="white" to="/menu-page">
         <q-icon name="event" size="24px" />
         <div class="q-mt-sm">Book Appointment</div>
       </q-btn>
 
-      <q-btn class="grid-btn" color="accent" to="/appointments">
+      <q-btn class="grid-btn" color="secondary" to="/menu-page">
         <q-icon name="calendar_today" size="24px" />
         <div class="q-mt-sm">My Appointments</div>
       </q-btn>
@@ -75,12 +75,12 @@
         <div class="q-mt-sm">Chatbot Assistant</div>
       </q-btn>
 
-      <q-btn class="grid-btn" color="positive" to="/records">
+      <q-btn class="grid-btn" color="info" to="/documents-page">
         <q-icon name="folder" size="24px" />
         <div class="q-mt-sm">Medical Records</div>
       </q-btn>
 
-      <q-btn class="grid-btn" color="warning" to="/feedback">
+      <q-btn class="grid-btn" color="positive" to="/menu-page">
         <q-icon name="star" size="24px" />
         <div class="q-mt-sm">Reviews & Feedback</div>
       </q-btn>
