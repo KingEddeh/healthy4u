@@ -19,6 +19,7 @@
     "@quasar/extras": "^1.16.4",
     "@types/qrcode": "^1.5.5",
     "axios": "^1.2.1",
+    "date-fns": "^4.1.0",
     "pinia": "^3.0.1",
     "qr-scanner": "^1.4.2",
     "qrcode": "^1.5.4",

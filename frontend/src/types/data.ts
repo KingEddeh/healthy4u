@@ -32,3 +32,61 @@ export interface UserPayload {
   user_type: 'patient';
   medical_record: MedicalRecordData;
 }
+
+export interface Appointment {
+  id: string;
+  patientId: string;
+  doctorId: string;
+  doctorName: string;
+  specialization: string;
+  date: string;
+  time: string;
+  status: 'scheduled' | 'completed' | 'cancelled';
+  reason: string;
+  notes?: string;
+  isOnline: boolean;
+}
+
+export interface ChatMessage {
+  id: string;
+  senderId: string;
+  content: string;
+  timestamp: string;
+  type: 'user' | 'bot' | 'system';
+  triageLevel?: 'routine' | 'urgent' | 'very-urgent' | 'emergency';
+}
+
+export interface Consultation {
+  id: string;
+  patientId: string;
+  doctorId: string;
+  doctorName: string;
+  date: string;
+  diagnosis: string;
+  prescription: string[];
+  notes: string;
+  followUpDate?: string;
+  attachments?: string[];
+}
+
+export interface Review {
+  id: string;
+  patientId: string;
+  institutionId: string;
+  rating: number;
+  comment: string;
+  date: string;
+  isAnonymous: boolean;
+  status: 'pending' | 'approved' | 'rejected';
+}
+
+export interface HealthCard {
+  id: string;
+  patientId: string;
+  cardNumber: string;
+  issueDate: string;
+  expiryDate: string;
+  status: 'active' | 'inactive' | 'expired';
+  qrCode: string;
+  nfcId?: string;
+}

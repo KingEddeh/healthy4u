@@ -46,6 +46,51 @@
             Sign In
           </q-item-section>
         </q-item>
+        <q-item clickable v-ripple to="/appointments">
+          <q-item-section avatar>
+            <q-icon name="event" />
+          </q-item-section>
+          <q-item-section>
+            Appointments
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple to="/consultations">
+          <q-item-section avatar>
+            <q-icon name="medical_information" />
+          </q-item-section>
+          <q-item-section>
+            Medical Records
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple to="/reviews">
+          <q-item-section avatar>
+            <q-icon name="rate_review" />
+          </q-item-section>
+          <q-item-section>
+            Reviews & Feedback
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple to="/health-card">
+          <q-item-section avatar>
+            <q-icon name="credit_card" />
+          </q-item-section>
+          <q-item-section>
+            Health Card
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple to="/chatbot">
+          <q-item-section avatar>
+            <q-icon name="smart_toy" />
+          </q-item-section>
+          <q-item-section>
+            Health Assistant
+          </q-item-section>
+        </q-item>
+
         <q-item clickable v-ripple to="/home">
           <q-item-section avatar>
             <q-icon name="home" />

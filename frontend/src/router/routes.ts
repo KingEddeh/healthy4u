@@ -50,6 +50,18 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/Patient/QRScannerPage.vue')
       },
       {
+        path: 'appointments',
+        name: 'appointments',
+        meta: { showHeader: true, showFooter: true },
+        component: () => import('pages/Patient/AppointmentsPage.vue')
+      },
+      {
+        path: 'chatbot',
+        name: 'chatbot',
+        meta: { showHeader: true, showFooter: true },
+        component: () => import('pages/Patient/ChatbotPage.vue')
+      },
+      {
         path: 'profiles',
         name: 'profiles',
         meta: { showHeader: true, showFooter: true },
@@ -60,6 +72,24 @@ const routes: RouteRecordRaw[] = [
         name: 'menu',
         meta: { showHeader: true, showFooter: true },
         component: () => import('pages/Patient/MenuPage.vue')
+      },
+      {
+        path: 'consultations',
+        name: 'consultations',
+        meta: { showHeader: true, showFooter: true },
+        component: () => import('pages/Patient/ConsultationPage.vue')
+      },
+      {
+        path: 'reviews',
+        name: 'reviews',
+        meta: { showHeader: true, showFooter: true },
+        component: () => import('pages/Patient/ReviewsPage.vue')
+      },
+      {
+        path: 'health-card',
+        name: 'health-card',
+        meta: { showHeader: true, showFooter: true },
+        component: () => import('pages/Patient/HealthCardPage.vue')
       },
     ],
   },
