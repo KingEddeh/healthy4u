@@ -116,14 +116,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import { useChatStore } from '../../stores/chat-store';
 import type { ChatMessage } from '../../types/data';
 import ChatInterface from '../../components/Patient/Chatbot/ChatInterface.vue';
 
 const $q = useQuasar();
-const router = useRouter();
 const chatStore = useChatStore();
 
 const showEmergencyDialog = ref(false);
@@ -141,7 +139,7 @@ const commonSymptoms = [
 const handleMessageSent = async (message: ChatMessage) => {
   try {
     await chatStore.sendMessage(message.content);
-  } catch (error) {
+  } catch {
     $q.notify({
       type: 'negative',
       message: 'Failed to process your message. Please try again.'
@@ -179,8 +177,8 @@ const handleFindHospital = () => {
   });
 };
 
-const handleSymptomClick = (symptom: string) => {
-  chatStore.sendMessage(`I'm experiencing ${symptom.toLowerCase()}`);
+const handleSymptomClick = async (symptom: string) => {
+  await chatStore.sendMessage(`I'm experiencing ${symptom.toLowerCase()}`);
 };
 </script>
 

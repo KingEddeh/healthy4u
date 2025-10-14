@@ -148,10 +148,10 @@
 
     <q-footer v-if="showFooter" flat class="bg-white text-primary">
       <q-toolbar class="footer-nav">
-        <q-btn flat stack no-caps class="footer-btn" icon="home" label="Home" @click="navigate('home')" />
-        <q-btn flat stack no-caps class="footer-btn" icon="folder" label="Records" @click="navigate('documents')" />
-        <q-btn flat stack no-caps class="footer-btn" icon="chat" label="Chatbot" @click="() => router.push('/home')" />
-        <q-btn flat stack no-caps class="footer-btn" icon="person" label="Profile" @click="navigate('profiles')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="home" label="Home" @click="() => router.push('/home')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="folder" label="Records" @click="() => router.push('/consultations')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="chat" label="Chatbot" @click="() => router.push('/chatbot')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="person" label="Profile" @click="() => router.push('/profiles')" />
       </q-toolbar>
     </q-footer>
     </q-layout>
@@ -169,17 +169,7 @@ const drawer = ref(false);
 const showHeader = computed(() => route.meta.showHeader === true);
 const showFooter = computed(() => route.meta.showFooter === true);
 
-/**
- * Navigates to a specific route.
- * @param routeName The name of the route to navigate to.
- */
-async function navigate(routeName: string) {
-  try {
-    await router.push({ name: routeName });
-  } catch (error) {
-    console.error('Navigation failed:', error);
-  }
-}
+
 
 </script>
 

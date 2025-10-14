@@ -73,7 +73,7 @@ const menuItems = ref<MenuItem[]>([
     description: 'Schedule and manage appointments',
     icon: 'event',
     color: 'primary',
-    action: () => navigateToFeature('Appointments')
+    action: async () => { await router.push('/appointments') }
   },
   {
     id: 2,
@@ -81,7 +81,7 @@ const menuItems = ref<MenuItem[]>([
     description: 'Track your medications and reminders',
     icon: 'medication',
     color: 'positive',
-    action: () => navigateToFeature('Medications')
+    action: async () => { await router.push('/consultations') }
   },
   {
     id: 3,
@@ -89,7 +89,7 @@ const menuItems = ref<MenuItem[]>([
     description: 'View your complete health history',
     icon: 'health_and_safety',
     color: 'info',
-    action: () => navigateToFeature('Health Records')
+    action: async () => { await router.push('/consultations') }
   },
   {
     id: 4,
@@ -97,7 +97,7 @@ const menuItems = ref<MenuItem[]>([
     description: 'Manage emergency contact information',
     icon: 'emergency',
     color: 'negative',
-    action: () => navigateToFeature('Emergency Contacts')
+    action: async () => { await router.push('/profile-detail') }
   }
 ]);
 

@@ -81,7 +81,7 @@ const handleDeleteReview = async (id: string) => {
   reviews.value = reviews.value.filter(r => r.id !== id);
 };
 
-onMounted(() => {
-  fetchReviews();
+onMounted(async () => {
+  await fetchReviews();
 });
 </script>

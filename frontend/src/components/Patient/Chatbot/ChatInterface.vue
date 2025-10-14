@@ -38,7 +38,7 @@ interface TriageResult {
   message: string;
 }
 
-const props = defineProps<{
+defineProps<{
   loading?: boolean;
 }>();
 

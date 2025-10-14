@@ -107,7 +107,7 @@ import type { Consultation } from '../../../types/data';
 
 const $q = useQuasar();
 
-const props = defineProps<{
+defineProps<{
   consultation: Consultation;
 }>();
 

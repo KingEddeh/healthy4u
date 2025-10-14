@@ -29,7 +29,7 @@
 
       <div class="row items-center q-mb-sm">
         <q-rating
-          v-model="review.rating"
+          :model-value="review.rating"
           size="1.5em"
           color="primary"
           readonly

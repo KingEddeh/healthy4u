@@ -138,7 +138,7 @@ const props = defineProps<{
   consultations: Consultation[];
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
   (e: 'view-consultation', consultation: Consultation): void;
 }>();
 

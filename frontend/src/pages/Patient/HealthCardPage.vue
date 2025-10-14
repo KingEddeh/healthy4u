@@ -103,12 +103,12 @@ const fetchHealthCard = async () => {
   loading.value = false;
 };
 
-const handleRenew = async () => {
+const handleRenew = () => {
   // Implement renewal logic
   console.log('Renewing card...');
 };
 
-const handleSync = async () => {
+const handleSync = () => {
   // Implement sync logic
   console.log('Syncing card...');
 };
@@ -118,7 +118,7 @@ const findNearestRHU = () => {
   console.log('Finding nearest RHU...');
 };
 
-onMounted(() => {
-  fetchHealthCard();
+onMounted(async () => {
+  await fetchHealthCard();
 });
 </script>

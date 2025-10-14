@@ -172,7 +172,7 @@ const handleCreateAppointment = async (appointment: Partial<Appointment>) => {
       type: 'positive',
       message: 'Appointment booked successfully'
     });
-  } catch (error) {
+  } catch {
     $q.notify({
       type: 'negative',
       message: 'Failed to book appointment'
@@ -193,7 +193,7 @@ const handleCancelAppointment = async (appointment: Appointment) => {
       type: 'positive',
       message: 'Appointment cancelled successfully'
     });
-  } catch (error) {
+  } catch {
     $q.notify({
       type: 'negative',
       message: 'Failed to cancel appointment'

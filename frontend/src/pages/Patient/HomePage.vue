@@ -55,32 +55,32 @@
 
     <!-- Main Navigation Grid -->
     <div class="main-nav-grid q-mt-md">
-      <q-btn class="grid-btn" color="primary" to="/qr-page">
+      <q-btn class="grid-btn" color="primary" to="/qr">
         <q-icon name="qr_code" size="24px" />
         <div class="q-mt-sm">My QR/Health Card</div>
       </q-btn>
       
-      <q-btn class="grid-btn text-black" color="white" to="/menu-page">
+      <q-btn class="grid-btn text-black" color="white" to="/appointments">
         <q-icon name="event" size="24px" />
         <div class="q-mt-sm">Book Appointment</div>
       </q-btn>
 
-      <q-btn class="grid-btn" color="secondary" to="/menu-page">
+      <q-btn class="grid-btn" color="secondary" to="/appointments">
         <q-icon name="calendar_today" size="24px" />
         <div class="q-mt-sm">My Appointments</div>
       </q-btn>
 
-      <q-btn class="grid-btn" color="info" @click="searchQuery = ''">
+      <q-btn class="grid-btn" color="info" to="/chatbot">
         <q-icon name="chat" size="24px" />
         <div class="q-mt-sm">Chatbot Assistant</div>
       </q-btn>
 
-      <q-btn class="grid-btn" color="info" to="/documents-page">
+      <q-btn class="grid-btn" color="info" to="/consultations">
         <q-icon name="folder" size="24px" />
         <div class="q-mt-sm">Medical Records</div>
       </q-btn>
 
-      <q-btn class="grid-btn" color="positive" to="/menu-page">
+      <q-btn class="grid-btn" color="positive" to="/reviews">
         <q-icon name="star" size="24px" />
         <div class="q-mt-sm">Reviews & Feedback</div>
       </q-btn>

@@ -67,7 +67,7 @@ interface UserInfo {
   bloodType: string;
 }
 
-const props = defineProps<{
+defineProps<{
   healthCard: HealthCard;
   userInfo: UserInfo;
 }>();
