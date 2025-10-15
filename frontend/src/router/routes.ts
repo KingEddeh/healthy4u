@@ -9,38 +9,50 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'doctor/dashboard',
         name: 'doctor-dashboard',
-        meta: { showHeader: true, showFooter: false },
+        meta: { showHeader: true, showFooter: true, userType: 'doctor' },
         component: () => import('pages/Doctor/DashboardPage.vue')
       },
       {
         path: 'doctor/queue',
         name: 'doctor-queue',
-        meta: { showHeader: true, showFooter: false },
+        meta: { showHeader: true, showFooter: true, userType: 'doctor' },
         component: () => import('pages/Doctor/QueuePage.vue')
       },
       {
         path: 'doctor/consultations',
         name: 'doctor-consultations',
-        meta: { showHeader: true, showFooter: false },
+        meta: { showHeader: true, showFooter: true, userType: 'doctor' },
         component: () => import('pages/Doctor/ConsultationsPage.vue')
       },
       {
         path: 'doctor/schedule',
         name: 'doctor-schedule',
-        meta: { showHeader: true, showFooter: false },
+        meta: { showHeader: true, showFooter: true, userType: 'doctor' },
         component: () => import('pages/Doctor/SchedulePage.vue')
       },
       {
         path: 'doctor/consultation-tools',
         name: 'doctor-consultation-tools',
-        meta: { showHeader: true, showFooter: false },
+        meta: { showHeader: true, showFooter: true, userType: 'doctor' },
         component: () => import('pages/Doctor/ConsultationToolsPage.vue')
       },
       {
         path: 'doctor/reviews',
         name: 'doctor-reviews',
-        meta: { showHeader: true, showFooter: false },
+        meta: { showHeader: true, showFooter: true, userType: 'doctor' },
         component: () => import('pages/Doctor/ReviewsPage.vue')
+      },
+      {
+        path: 'doctor/appointments',
+        name: 'doctor-appointments',
+        meta: { showHeader: true, showFooter: true, userType: 'doctor' },
+        component: () => import('pages/Doctor/AppointmentsPage.vue')
+      },
+      {
+        path: 'doctor/profile',
+        name: 'doctor-profile',
+        meta: { showHeader: true, showFooter: true, userType: 'doctor' },
+        component: () => import('pages/Doctor/ProfilePage.vue')
       },
       {
         path: '',

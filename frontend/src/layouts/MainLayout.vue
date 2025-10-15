@@ -21,8 +21,8 @@
     <q-drawer v-model="drawer" show-if-above>
       <p class="text-weight-bold q-ma-md">For Prototype purposes only</p>
       <q-list class="text-grey-8">
-        <!-- Common Pages -->
-        <q-item-label header class="text-primary">Common</q-item-label>
+        <!-- Auth Pages -->
+        <q-item-label header class="text-primary">Authentication</q-item-label>
         <q-item clickable v-ripple to="/" exact>
           <q-item-section avatar>
             <q-icon name="public" />
@@ -47,38 +47,6 @@
             Sign In
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/appointments">
-          <q-item-section avatar>
-            <q-icon name="event" />
-          </q-item-section>
-          <q-item-section>
-            Appointments
-          </q-item-section>
-        </q-item>
-        <q-item clickable v-ripple to="/consultations">
-          <q-item-section avatar>
-            <q-icon name="medical_information" />
-          </q-item-section>
-          <q-item-section>
-            Medical Records
-          </q-item-section>
-        </q-item>
-        <q-item clickable v-ripple to="/reviews">
-          <q-item-section avatar>
-            <q-icon name="rate_review" />
-          </q-item-section>
-          <q-item-section>
-            Reviews & Feedback
-          </q-item-section>
-        </q-item>
-        <q-item clickable v-ripple to="/profiles">
-          <q-item-section avatar>
-            <q-icon name="person" />
-          </q-item-section>
-          <q-item-section>
-            Profile
-          </q-item-section>
-        </q-item>
 
         <!-- Patient Section -->
         <q-separator />
@@ -89,6 +57,22 @@
           </q-item-section>
           <q-item-section>
             Patient Home
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/appointments">
+          <q-item-section avatar>
+            <q-icon name="event" />
+          </q-item-section>
+          <q-item-section>
+            My Appointments
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/consultations">
+          <q-item-section avatar>
+            <q-icon name="medical_information" />
+          </q-item-section>
+          <q-item-section>
+            Medical Records
           </q-item-section>
         </q-item>
         <q-item clickable v-ripple to="/health-card">
@@ -105,6 +89,22 @@
           </q-item-section>
           <q-item-section>
             Health Assistant
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/reviews">
+          <q-item-section avatar>
+            <q-icon name="rate_review" />
+          </q-item-section>
+          <q-item-section>
+            Reviews
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/profiles">
+          <q-item-section avatar>
+            <q-icon name="person" />
+          </q-item-section>
+          <q-item-section>
+            My Profile
           </q-item-section>
         </q-item>
 
@@ -135,12 +135,28 @@
             Consultation Tools
           </q-item-section>
         </q-item>
+        <q-item clickable v-ripple to="/doctor/consultations">
+          <q-item-section avatar>
+            <q-icon name="description" />
+          </q-item-section>
+          <q-item-section>
+            Consultations
+          </q-item-section>
+        </q-item>
         <q-item clickable v-ripple to="/doctor/schedule">
           <q-item-section avatar>
             <q-icon name="schedule" />
           </q-item-section>
           <q-item-section>
-            My Schedule
+            Schedule
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/doctor/appointments">
+          <q-item-section avatar>
+            <q-icon name="event" />
+          </q-item-section>
+          <q-item-section>
+            Appointments
           </q-item-section>
         </q-item>
         <q-item clickable v-ripple to="/doctor/reviews">
@@ -151,7 +167,15 @@
             Reviews & Feedback
           </q-item-section>
         </q-item>
-        
+        <q-item clickable v-ripple to="/doctor/profile">
+          <q-item-section avatar>
+            <q-icon name="person" />
+          </q-item-section>
+          <q-item-section>
+            My Profile
+          </q-item-section>
+        </q-item>
+
         <!-- Additional Patient Features -->
         <q-item clickable v-ripple to="/documents">
           <q-item-section avatar>
@@ -193,11 +217,20 @@
     </q-page-container>
 
     <q-footer v-if="showFooter" flat class="bg-white text-primary">
-      <q-toolbar class="footer-nav">
+      <!-- Patient Footer Navigation -->
+      <q-toolbar v-if="!isDoctorRoute" class="footer-nav">
         <q-btn flat stack no-caps class="footer-btn" icon="home" label="Home" @click="() => router.push('/home')" />
         <q-btn flat stack no-caps class="footer-btn" icon="folder" label="Records" @click="() => router.push('/consultations')" />
         <q-btn flat stack no-caps class="footer-btn" icon="chat" label="Chatbot" @click="() => router.push('/chatbot')" />
         <q-btn flat stack no-caps class="footer-btn" icon="person" label="Profile" @click="() => router.push('/profiles')" />
+      </q-toolbar>
+
+      <!-- Doctor Footer Navigation -->
+      <q-toolbar v-else class="footer-nav">
+        <q-btn flat stack no-caps class="footer-btn" icon="dashboard" label="Dashboard" @click="() => router.push('/doctor/dashboard')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="people" label="Queue" @click="() => router.push('/doctor/queue')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="medical_services" label="Tools" @click="() => router.push('/doctor/consultation-tools')" />
+        <q-btn flat stack no-caps class="footer-btn" icon="person" label="Profile" @click="() => router.push('/doctor/profile')" />
       </q-toolbar>
     </q-footer>
     </q-layout>
@@ -214,6 +247,7 @@ const drawer = ref(false);
 
 const showHeader = computed(() => route.meta.showHeader === true);
 const showFooter = computed(() => route.meta.showFooter === true);
+const isDoctorRoute = computed(() => route.meta.userType === 'doctor');
 
 
 
