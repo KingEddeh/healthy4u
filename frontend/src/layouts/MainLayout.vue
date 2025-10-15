@@ -21,7 +21,8 @@
     <q-drawer v-model="drawer" show-if-above>
       <p class="text-weight-bold q-ma-md">For Prototype purposes only</p>
       <q-list class="text-grey-8">
-        <q-item-label header class="text-primary">Navigation</q-item-label>
+        <!-- Common Pages -->
+        <q-item-label header class="text-primary">Common</q-item-label>
         <q-item clickable v-ripple to="/" exact>
           <q-item-section avatar>
             <q-icon name="public" />
@@ -46,33 +47,26 @@
             Sign In
           </q-item-section>
         </q-item>
+
+        <!-- Patient Section -->
+        <q-separator />
+        <q-item-label header class="text-primary">Patient Portal</q-item-label>
+        <q-item clickable v-ripple to="/home">
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
+          <q-item-section>
+            Patient Home
+          </q-item-section>
+        </q-item>
         <q-item clickable v-ripple to="/appointments">
           <q-item-section avatar>
             <q-icon name="event" />
           </q-item-section>
           <q-item-section>
-            Appointments
+            My Appointments
           </q-item-section>
         </q-item>
-
-        <q-item clickable v-ripple to="/consultations">
-          <q-item-section avatar>
-            <q-icon name="medical_information" />
-          </q-item-section>
-          <q-item-section>
-            Medical Records
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable v-ripple to="/reviews">
-          <q-item-section avatar>
-            <q-icon name="rate_review" />
-          </q-item-section>
-          <q-item-section>
-            Reviews & Feedback
-          </q-item-section>
-        </q-item>
-
         <q-item clickable v-ripple to="/health-card">
           <q-item-section avatar>
             <q-icon name="credit_card" />
@@ -81,7 +75,14 @@
             Health Card
           </q-item-section>
         </q-item>
-
+        <q-item clickable v-ripple to="/consultations">
+          <q-item-section avatar>
+            <q-icon name="medical_information" />
+          </q-item-section>
+          <q-item-section>
+            Medical Records
+          </q-item-section>
+        </q-item>
         <q-item clickable v-ripple to="/chatbot">
           <q-item-section avatar>
             <q-icon name="smart_toy" />
@@ -90,15 +91,52 @@
             Health Assistant
           </q-item-section>
         </q-item>
-
-        <q-item clickable v-ripple to="/home">
+        <q-item clickable v-ripple to="/reviews">
           <q-item-section avatar>
-            <q-icon name="home" />
+            <q-icon name="rate_review" />
           </q-item-section>
           <q-item-section>
-            Home
+            Reviews
           </q-item-section>
         </q-item>
+
+        <!-- Doctor Section -->
+        <q-separator />
+        <q-item-label header class="text-primary">Doctor Portal</q-item-label>
+        <q-item clickable v-ripple to="/doctor/dashboard">
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+          <q-item-section>
+            Dashboard
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/doctor/queue">
+          <q-item-section avatar>
+            <q-icon name="people" />
+          </q-item-section>
+          <q-item-section>
+            Patient Queue
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/doctor/consultations">
+          <q-item-section avatar>
+            <q-icon name="medical_services" />
+          </q-item-section>
+          <q-item-section>
+            Consultations
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/doctor/schedule">
+          <q-item-section avatar>
+            <q-icon name="schedule" />
+          </q-item-section>
+          <q-item-section>
+            My Schedule
+          </q-item-section>
+        </q-item>
+        
+        <!-- Additional Patient Features -->
         <q-item clickable v-ripple to="/documents">
           <q-item-section avatar>
             <q-icon name="folder" />
@@ -125,18 +163,10 @@
         </q-item>
         <q-item clickable v-ripple to="/profiles">
           <q-item-section avatar>
-            <q-icon name="people" />
+            <q-icon name="person" />
           </q-item-section>
           <q-item-section>
-            Profiles
-          </q-item-section>
-        </q-item>
-        <q-item clickable v-ripple to="/menu">
-          <q-item-section avatar>
-            <q-icon name="menu" />
-          </q-item-section>
-          <q-item-section>
-            Menu
+            Profile
           </q-item-section>
         </q-item>
       </q-list>
