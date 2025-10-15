@@ -6,6 +6,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
+        path: 'doctor/dashboard',
+        name: 'doctor-dashboard',
+        meta: { showHeader: true, showFooter: false },
+        component: () => import('pages/Doctor/DashboardPage.vue')
+      },
+      {
         path: '',
         meta: { showHeader: true, showFooter: false },
           component: () => import('pages/Patient/IndexPage.vue')
