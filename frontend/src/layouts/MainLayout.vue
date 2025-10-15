@@ -47,6 +47,38 @@
             Sign In
           </q-item-section>
         </q-item>
+        <q-item clickable v-ripple to="/appointments">
+          <q-item-section avatar>
+            <q-icon name="event" />
+          </q-item-section>
+          <q-item-section>
+            Appointments
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/consultations">
+          <q-item-section avatar>
+            <q-icon name="medical_information" />
+          </q-item-section>
+          <q-item-section>
+            Medical Records
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/reviews">
+          <q-item-section avatar>
+            <q-icon name="rate_review" />
+          </q-item-section>
+          <q-item-section>
+            Reviews & Feedback
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/profiles">
+          <q-item-section avatar>
+            <q-icon name="person" />
+          </q-item-section>
+          <q-item-section>
+            Profile
+          </q-item-section>
+        </q-item>
 
         <!-- Patient Section -->
         <q-separator />
@@ -59,14 +91,6 @@
             Patient Home
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/appointments">
-          <q-item-section avatar>
-            <q-icon name="event" />
-          </q-item-section>
-          <q-item-section>
-            My Appointments
-          </q-item-section>
-        </q-item>
         <q-item clickable v-ripple to="/health-card">
           <q-item-section avatar>
             <q-icon name="credit_card" />
@@ -75,28 +99,12 @@
             Health Card
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/consultations">
-          <q-item-section avatar>
-            <q-icon name="medical_information" />
-          </q-item-section>
-          <q-item-section>
-            Medical Records
-          </q-item-section>
-        </q-item>
         <q-item clickable v-ripple to="/chatbot">
           <q-item-section avatar>
             <q-icon name="smart_toy" />
           </q-item-section>
           <q-item-section>
             Health Assistant
-          </q-item-section>
-        </q-item>
-        <q-item clickable v-ripple to="/reviews">
-          <q-item-section avatar>
-            <q-icon name="rate_review" />
-          </q-item-section>
-          <q-item-section>
-            Reviews
           </q-item-section>
         </q-item>
 
@@ -119,12 +127,12 @@
             Patient Queue
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/doctor/consultations">
+        <q-item clickable v-ripple to="/doctor/consultation-tools">
           <q-item-section avatar>
             <q-icon name="medical_services" />
           </q-item-section>
           <q-item-section>
-            Consultations
+            Consultation Tools
           </q-item-section>
         </q-item>
         <q-item clickable v-ripple to="/doctor/schedule">
@@ -133,6 +141,14 @@
           </q-item-section>
           <q-item-section>
             My Schedule
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/doctor/reviews">
+          <q-item-section avatar>
+            <q-icon name="star" />
+          </q-item-section>
+          <q-item-section>
+            Reviews & Feedback
           </q-item-section>
         </q-item>
         
