@@ -18,8 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import QuickStatsCard from './QuickStatsCard.vue';
-import NotificationsCard from './NotificationsCard.vue';
+import QuickStatsCard from '../../components/Doctor/Dashboard/QuickStats/QuickStatsCard.vue';
+import NotificationsCard from '../../components/Doctor/Dashboard/Notifications/NotificationsCard.vue';
 import PatientQueueCard from './PatientQueueCard.vue';
 import AppointmentsCard from './AppointmentsCard.vue';
 </script>
@@ -27,5 +27,15 @@ import AppointmentsCard from './AppointmentsCard.vue';
 <style scoped>
 .q-page {
   background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.q-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.q-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 </style>
