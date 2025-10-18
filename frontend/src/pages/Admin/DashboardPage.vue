@@ -51,6 +51,52 @@
       </div>
     </section>
 
+    <!-- Quick Actions Section -->
+    <section class="q-mb-lg">
+      <div class="text-h6 q-mb-md">Quick Actions</div>
+      <div class="row q-col-gutter-md">
+        <div class="col-12 col-sm-6 col-md-3">
+          <q-card clickable @click="$router.push('/admin/patient-registration')" class="action-card">
+            <q-card-section class="text-center">
+              <q-icon name="person_add" size="3rem" color="primary" />
+              <div class="text-h6 q-mt-sm">Register Patient</div>
+              <div class="text-caption text-grey">Add new patient and generate health card</div>
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+          <q-card clickable @click="$router.push('/admin/patient-check-in')" class="action-card">
+            <q-card-section class="text-center">
+              <q-icon name="qr_code_scanner" size="3rem" color="primary" />
+              <div class="text-h6 q-mt-sm">Patient Check-in</div>
+              <div class="text-caption text-grey">Scan health card and check in patient</div>
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+          <q-card clickable @click="$router.push('/admin/appointments')" class="action-card">
+            <q-card-section class="text-center">
+              <q-icon name="event" size="3rem" color="primary" />
+              <div class="text-h6 q-mt-sm">Appointments</div>
+              <div class="text-caption text-grey">View and manage appointments</div>
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+          <q-card clickable @click="$router.push('/admin/reports')" class="action-card">
+            <q-card-section class="text-center">
+              <q-icon name="assessment" size="3rem" color="primary" />
+              <div class="text-h6 q-mt-sm">Reports</div>
+              <div class="text-caption text-grey">Generate and view reports</div>
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
+    </section>
+
     <!-- Recent Activity & Alerts Section -->
     <div class="row q-col-gutter-md">
       <!-- Recent Activity -->
@@ -183,5 +229,22 @@ const systemAlerts = ref([
 
 .q-card {
   border-radius: 8px;
+}
+
+.action-card {
+  transition: transform 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .q-icon {
+    transition: transform 0.3s;
+  }
+
+  &:hover .q-icon {
+    transform: scale(1.1);
+  }
 }
 </style>

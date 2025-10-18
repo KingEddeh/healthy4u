@@ -17,6 +17,16 @@ const adminRoutes: RouteRecordRaw[] = [
         component: () => import('pages/Admin/PatientManagementPage.vue')
       },
       {
+        path: 'patient-registration',
+        name: 'admin-patient-registration',
+        component: () => import('pages/Admin/PatientRegistrationPage.vue')
+      },
+      {
+        path: 'patient-check-in',
+        name: 'admin-patient-check-in',
+        component: () => import('pages/Admin/PatientCheckInPage.vue')
+      },
+      {
         path: 'appointments',
         name: 'admin-appointments',
         component: () => import('pages/Admin/AppointmentManagementPage.vue')

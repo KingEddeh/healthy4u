@@ -61,12 +61,34 @@
             <q-item-section>Dashboard</q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/admin/patients">
-            <q-item-section avatar>
-              <q-icon name="people" />
-            </q-item-section>
-            <q-item-section>Patient Management</q-item-section>
-          </q-item>
+          <q-expansion-item
+            icon="people"
+            label="Patient Management"
+            default-opened
+          >
+            <q-list padding>
+              <q-item clickable v-ripple to="/admin/patients">
+                <q-item-section avatar>
+                  <q-icon name="list" />
+                </q-item-section>
+                <q-item-section>All Patients</q-item-section>
+              </q-item>
+
+              <q-item clickable v-ripple to="/admin/patient-registration">
+                <q-item-section avatar>
+                  <q-icon name="person_add" />
+                </q-item-section>
+                <q-item-section>Register Patient</q-item-section>
+              </q-item>
+
+              <q-item clickable v-ripple to="/admin/patient-check-in">
+                <q-item-section avatar>
+                  <q-icon name="qr_code_scanner" />
+                </q-item-section>
+                <q-item-section>Patient Check-in</q-item-section>
+              </q-item>
+            </q-list>
+          </q-expansion-item>
 
           <q-item clickable v-ripple to="/admin/appointments">
             <q-item-section avatar>
