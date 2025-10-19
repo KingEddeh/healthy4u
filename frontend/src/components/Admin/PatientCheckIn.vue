@@ -1,142 +1,247 @@
-&lt;template&gt;
-  &lt;div class="patient-check-in"&gt;
-    &lt;q-card class="check-in-card"&gt;
-      &lt;q-card-section&gt;
-        &lt;div class="text-h6"&gt;Patient Check-In&lt;/div&gt;
-      &lt;/q-card-section&gt;
+<template>
+  <div class="patient-check-in">
+    <q-card class="check-in-card">
+      <q-card-section>
+        <div class="text-h6">Patient Check-In</div>
+      </q-card-section>
 
-      &lt;q-card-section&gt;
-        &lt;div v-if="!showScanner" class="text-center"&gt;
-          &lt;q-btn
+      <q-card-section>
+        <div v-if="!showScanner" class="text-center">
+          <q-btn
             color="primary"
             icon="qr_code_scanner"
-            label="Scan Patient Card"
+            label="Scan Patient QR Card"
             @click="startScanning"
-          /&gt;
-        &lt;/div&gt;
+          />
+          <q-btn
+            color="secondary"
+            icon="nfc"
+            label="Scan NFC Card"
+            class="q-ml-md"
+            @click="scanNfcCard"
+          />
+          <div v-if="nfcReadStatus" class="q-mt-md text-secondary">{{ nfcReadStatus }}</div>
+        </div>
 
-        &lt;q-dialog v-model="showScanner" persistent&gt;
-          &lt;q-card style="min-width: 350px"&gt;
-            &lt;q-card-section class="row items-center"&gt;
-              &lt;q-space /&gt;
-              &lt;q-btn icon="close" flat round dense v-close-popup @click="stopScanning" /&gt;
-            &lt;/q-card-section&gt;
+        <q-dialog v-model="showScanner" persistent>
+          <q-card style="min-width: 350px">
+            <q-card-section class="row items-center">
+              <q-space />
+              <q-btn icon="close" flat round dense v-close-popup @click="stopScanning" />
+            </q-card-section>
 
-            &lt;q-card-section class="q-pt-none"&gt;
-              &lt;qr-scanner @decoded="onQRDecoded" @error="onQRError" /&gt;
-            &lt;/q-card-section&gt;
-          &lt;/q-card&gt;
-        &lt;/q-dialog&gt;
+            <q-card-section class="q-pt-none">
+              <qr-scanner @decoded="onQRDecoded" @error="onQRError" />
+            </q-card-section>
+          </q-card>
+        </q-dialog>
 
-        &lt;div v-if="patientInfo" class="patient-info q-mt-md"&gt;
-          &lt;q-card-section&gt;
-            &lt;div class="text-h6"&gt;Patient Information&lt;/div&gt;
-            &lt;div class="row q-col-gutter-md q-mt-md"&gt;
-              &lt;div class="col-12 col-md-6"&gt;
-                &lt;p&gt;&lt;strong&gt;Name:&lt;/strong&gt; {{ patientInfo.firstName }} {{ patientInfo.lastName }}&lt;/p&gt;
-                &lt;p&gt;&lt;strong&gt;ID:&lt;/strong&gt; {{ patientInfo.id }}&lt;/p&gt;
-                &lt;p&gt;&lt;strong&gt;Date of Birth:&lt;/strong&gt; {{ patientInfo.dateOfBirth }}&lt;/p&gt;
-              &lt;/div&gt;
-              &lt;div class="col-12 col-md-6"&gt;
-                &lt;p&gt;&lt;strong&gt;Phone:&lt;/strong&gt; {{ patientInfo.phone }}&lt;/p&gt;
-                &lt;p&gt;&lt;strong&gt;Address:&lt;/strong&gt; {{ patientInfo.address }}&lt;/p&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
+        <div v-if="patientInfo" class="patient-info q-mt-md">
+          <q-card-section>
+            <div class="text-h6">Patient Information</div>
+            <div class="row q-col-gutter-md q-mt-md">
+              <div class="col-12 col-md-6">
+                <p><strong>Name:</strong> {{ patientInfo.firstName }} {{ patientInfo.lastName }}</p>
+                <p><strong>ID:</strong> {{ patientInfo.id }}</p>
+                <p><strong>Date of Birth:</strong> {{ patientInfo.dateOfBirth }}</p>
+              </div>
+              <div class="col-12 col-md-6">
+                <p><strong>Phone:</strong> {{ patientInfo.phone }}</p>
+                <p><strong>Address:</strong> {{ patientInfo.address }}</p>
+              </div>
+            </div>
 
-            &lt;patient-e-m-r
+            <patient-e-m-r
               v-if="patientInfo.id"
               :patient-id="patientInfo.id"
               class="q-mt-md q-mb-md"
-            /&gt;
+            />
 
-            &lt;div class="row justify-end"&gt;
-              &lt;q-btn
+            <div class="row justify-end">
+              <q-btn
                 color="primary"
                 label="Check In Patient"
                 @click="checkInPatient"
                 :loading="loading"
-              /&gt;
-            &lt;/div&gt;
-          &lt;/q-card-section&gt;
-        &lt;/div&gt;
-      &lt;/q-card-section&gt;
-    &lt;/q-card&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+              />
+            </div>
+          </q-card-section>
+        </div>
+      </q-card-section>
+    </q-card>
+  </div>
+</template>
 
-&lt;script lang="ts" setup&gt;
-import { ref } from 'vue'
-import { useQuasar } from 'quasar'
-import QrScanner from 'components/QRScanner.vue'
-import PatientEMR from './PatientEMR.vue'
-import { usePatientStore } from 'stores/patient-store'
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { useQuasar } from 'quasar';
+import QrScanner from 'components/QRScanner.vue';
+import PatientEMR from './PatientEMR.vue';
+import { usePatientStore } from 'stores/patient-store';
 
-const $q = useQuasar()
-const patientStore = usePatientStore()
-patientStore.initializeStore()
+// Import NFC plugin (Capacitor)
+// @ts-ignore
+import { NFC } from '@capawesome/capacitor-nfc';
 
-const showScanner = ref(false)
-const loading = ref(false)
-const patientInfo = ref(null)
+const $q = useQuasar();
+const patientStore = usePatientStore();
+patientStore.initializeStore();
+
+// Define the PatientInfo interface
+interface PatientInfo {
+  id: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  phone: string;
+  address: string;
+  createdAt: string;
+  updatedAt: string;
+  syncedAt?: string;
+  emr?: {
+    allergies?: string[];
+    currentMedications?: string[];
+    pastMedicalHistory?: string[];
+    familyMedicalHistory?: string[];
+    immunizationHistory?: string[];
+    lastUpdated?: string;
+  };
+}
+
+const showScanner = ref(false);
+const loading = ref(false);
+const patientInfo = ref<PatientInfo | null>(null); // Allow null values
+const nfcReadStatus = ref('');
 
 const startScanning = () => {
-  showScanner.value = true
-}
+  showScanner.value = true;
+};
 
 const stopScanning = () => {
-  showScanner.value = false
-}
+  showScanner.value = false;
+};
 
 const onQRDecoded = async (decodedString: string) => {
   try {
-    const data = JSON.parse(decodedString)
-    const patient = patientStore.getPatientById(data.id)
+    const data = JSON.parse(decodedString);
+    const patient = patientStore.getPatientById(data.id);
 
     if (patient) {
-      patientInfo.value = patient
-      showScanner.value = false
+      // Ensure patient data matches the PatientInfo interface
+      patientInfo.value = {
+        ...patient,
+        emr: {
+          allergies: patient.emr?.allergies || [],
+          currentMedications: patient.emr?.currentMedications || [],
+          pastMedicalHistory: Array.isArray(patient.emr?.pastMedicalHistory)
+            ? patient.emr.pastMedicalHistory
+            : [],
+          familyMedicalHistory: Array.isArray(patient.emr?.familyMedicalHistory)
+            ? patient.emr.familyMedicalHistory
+            : [],
+          immunizationHistory: patient.emr?.immunizationHistory || [],
+          lastUpdated: patient.emr?.lastUpdated || '',
+        },
+      };
+      showScanner.value = false;
     } else {
-      throw new Error('Patient not found in offline storage')
+      throw new Error('Patient not found in offline storage');
     }
   } catch (error) {
     $q.notify({
       type: 'negative',
-      message: 'Invalid QR code or patient not found'
-    })
+      message: 'Invalid QR code or patient not found',
+    });
   }
-}
+};
 
 const onQRError = (error: Error) => {
   $q.notify({
     type: 'negative',
-    message: 'Failed to scan QR code: ' + error.message
-  })
-}
+    message: 'Failed to scan QR code: ' + error.message,
+  });
+};
+
+/**
+ * Read patient data from NFC card
+ */
+const scanNfcCard = async () => {
+  nfcReadStatus.value = 'Waiting for NFC tag...';
+  try {
+    // Read from NFC tag
+    const result = await NFC.read();
+    if (result && result.messages && result.messages.length > 0) {
+      const textMsg = result.messages.find((msg: any) => msg.type === 'text');
+      if (textMsg && textMsg.data) {
+        const data = JSON.parse(textMsg.data);
+        const patient = patientStore.getPatientById(data.id);
+        if (patient) {
+          // Ensure patient data matches the PatientInfo interface
+          patientInfo.value = {
+            ...patient,
+            emr: {
+              allergies: patient.emr?.allergies || [],
+              currentMedications: patient.emr?.currentMedications || [],
+              pastMedicalHistory: Array.isArray(patient.emr?.pastMedicalHistory)
+                ? patient.emr.pastMedicalHistory
+                : [],
+              familyMedicalHistory: Array.isArray(patient.emr?.familyMedicalHistory)
+                ? patient.emr.familyMedicalHistory
+                : [],
+              immunizationHistory: patient.emr?.immunizationHistory || [],
+              lastUpdated: patient.emr?.lastUpdated || '',
+            },
+          };
+          nfcReadStatus.value = 'NFC card read successfully!';
+          $q.notify({ type: 'positive', message: 'NFC card read successfully!' });
+        } else {
+          nfcReadStatus.value = 'Patient not found in local storage.';
+          $q.notify({ type: 'negative', message: 'Patient not found in local storage.' });
+        }
+      } else {
+        nfcReadStatus.value = 'No valid patient data found on NFC card.';
+        $q.notify({ type: 'negative', message: 'No valid patient data found on NFC card.' });
+      }
+    } else {
+      nfcReadStatus.value = 'No NFC messages found.';
+      $q.notify({ type: 'negative', message: 'No NFC messages found.' });
+    }
+  } catch (error: any) {
+    nfcReadStatus.value = 'Failed to read NFC card.';
+    $q.notify({ type: 'negative', message: 'Failed to read NFC card.' });
+    console.error('NFC read error:', error);
+  }
+};
 
 const checkInPatient = async () => {
-  loading.value = true
+  if (!patientInfo.value) {
+    $q.notify({ type: 'negative', message: 'No patient selected for check-in.' });
+    return;
+  }
+
+  loading.value = true;
   try {
-    await patientStore.addCheckIn(patientInfo.value.id)
+    await patientStore.addCheckIn(patientInfo.value.id);
 
     $q.notify({
       type: 'positive',
-      message: 'Patient checked in successfully'
-    })
+      message: 'Patient checked in successfully',
+    });
 
     // Reset form
-    patientInfo.value = null
+    patientInfo.value = null;
   } catch (error) {
     $q.notify({
       type: 'negative',
-      message: 'Failed to check in patient'
-    })
+      message: 'Failed to check in patient',
+    });
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
-&lt;/script&gt;
+};
+</script>
 
-&lt;style lang="scss" scoped&gt;
+<style lang="scss" scoped>
 .patient-check-in {
   max-width: 800px;
   margin: 0 auto;
@@ -151,4 +256,4 @@ const checkInPatient = async () => {
   margin-top: 20px;
   padding-top: 20px;
 }
-&lt;/style&gt;
+</style>
