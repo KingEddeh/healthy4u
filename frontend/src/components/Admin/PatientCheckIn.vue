@@ -121,7 +121,7 @@ const stopScanning = () => {
   showScanner.value = false;
 };
 
-const onQRDecoded = async (decodedString: string) => {
+const onQRDecoded = (decodedString: string) => {
   try {
     const data = JSON.parse(decodedString);
     const patient = patientStore.getPatientById(data.id);
@@ -212,7 +212,7 @@ const scanNfcCard = async () => {
   }
 };
 
-const checkInPatient = async () => {
+const checkInPatient = () => {
   if (!patientInfo.value) {
     $q.notify({ type: 'negative', message: 'No patient selected for check-in.' });
     return;
@@ -220,7 +220,7 @@ const checkInPatient = async () => {
 
   loading.value = true;
   try {
-    await patientStore.addCheckIn(patientInfo.value.id);
+    patientStore.addCheckIn(patientInfo.value.id);
 
     $q.notify({
       type: 'positive',
