@@ -56,7 +56,7 @@
       <div class="text-h6 q-mb-md">Quick Actions</div>
       <div class="row q-col-gutter-md">
         <div class="col-12 col-sm-6 col-md-3">
-          <q-card clickable @click="$router.push('/admin/patient-registration')" class="action-card">
+          <q-card clickable @click="handleNavigation('admin-patient-registration')" class="action-card">
             <q-card-section class="text-center">
               <q-icon name="person_add" size="3rem" color="primary" />
               <div class="text-h6 q-mt-sm">Register Patient</div>
@@ -66,7 +66,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-md-3">
-          <q-card clickable @click="$router.push('/admin/patient-check-in')" class="action-card">
+          <q-card clickable @click="handleNavigation('admin-patient-check-in')" class="action-card">
             <q-card-section class="text-center">
               <q-icon name="qr_code_scanner" size="3rem" color="primary" />
               <div class="text-h6 q-mt-sm">Patient Check-in</div>
@@ -76,7 +76,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-md-3">
-          <q-card clickable @click="$router.push('/admin/appointments')" class="action-card">
+          <q-card clickable @click="handleNavigation('admin-appointments')" class="action-card">
             <q-card-section class="text-center">
               <q-icon name="event" size="3rem" color="primary" />
               <div class="text-h6 q-mt-sm">Appointments</div>
@@ -86,7 +86,7 @@
         </div>
 
         <div class="col-12 col-sm-6 col-md-3">
-          <q-card clickable @click="$router.push('/admin/reports')" class="action-card">
+          <q-card clickable @click="handleNavigation('admin-reports')" class="action-card">
             <q-card-section class="text-center">
               <q-icon name="assessment" size="3rem" color="primary" />
               <div class="text-h6 q-mt-sm">Reports</div>
@@ -156,6 +156,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const handleNavigation = (routeName: string) => {
+  void router.push({ name: routeName })
+}
 
 // Mock data - In production, this would come from API/store
 const stats = ref({

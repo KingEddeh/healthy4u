@@ -48,6 +48,12 @@ const routes: RouteRecordRaw[] = [
         meta: { showHeader: true, showFooter: true, userType: 'admin' },
         component: () => import('pages/Admin/ProfilePage.vue')
       },
+      {
+        path: 'admin/patient-registration',
+        name: 'admin-patient-registration',
+        meta: { showHeader: true, showFooter: true, userType: 'admin' },
+        component: () => import('pages/Admin/PatientRegistrationPage.vue')
+      },
 
       // Doctor Routes
       {

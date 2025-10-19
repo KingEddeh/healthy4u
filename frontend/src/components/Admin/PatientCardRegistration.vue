@@ -1,110 +1,110 @@
-&lt;template&gt;
-  &lt;div class="patient-card-registration"&gt;
-    &lt;q-card class="registration-card"&gt;
-      &lt;q-card-section&gt;
-        &lt;div class="text-h6"&gt;Patient Card Registration&lt;/div&gt;
-      &lt;/q-card-section&gt;
+﻿<template>
+  <div class="patient-card-registration">
+    <q-card class="registration-card">
+      <q-card-section>
+        <div class="text-h6">Patient Card Registration</div>
+      </q-card-section>
 
-      &lt;q-card-section&gt;
-        &lt;q-form @submit="onSubmit" class="q-gutter-md"&gt;
-          &lt;div class="row q-col-gutter-md"&gt;
-            &lt;div class="col-12 col-md-6"&gt;
-              &lt;q-input
+      <q-card-section>
+        <q-form @submit.prevent="onSubmit" class="q-gutter-md">
+          <div class="row q-col-gutter-md">
+            <div class="col-12 col-md-6">
+              <q-input
                 v-model="patientData.firstName"
                 label="First Name"
                 outlined
                 :rules="[val => !!val || 'First name is required']"
-              /&gt;
-            &lt;/div&gt;
-            &lt;div class="col-12 col-md-6"&gt;
-              &lt;q-input
+              />
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input
                 v-model="patientData.lastName"
                 label="Last Name"
                 outlined
                 :rules="[val => !!val || 'Last name is required']"
-              /&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
+              />
+            </div>
+          </div>
 
-          &lt;div class="row q-col-gutter-md"&gt;
-            &lt;div class="col-12 col-md-6"&gt;
-              &lt;q-input
+          <div class="row q-col-gutter-md">
+            <div class="col-12 col-md-6">
+              <q-input
                 v-model="patientData.dateOfBirth"
                 label="Date of Birth"
                 outlined
                 type="date"
                 :rules="[val => !!val || 'Date of birth is required']"
-              /&gt;
-            &lt;/div&gt;
-            &lt;div class="col-12 col-md-6"&gt;
-              &lt;q-input
+              />
+            </div>
+            <div class="col-12 col-md-6">
+              <q-input
                 v-model="patientData.phone"
                 label="Phone Number"
                 outlined
                 mask="(###) ###-####"
                 :rules="[val => !!val || 'Phone number is required']"
-              /&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
+              />
+            </div>
+          </div>
 
-          &lt;div class="row q-col-gutter-md"&gt;
-            &lt;div class="col-12"&gt;
-              &lt;q-input
+          <div class="row q-col-gutter-md">
+            <div class="col-12">
+              <q-input
                 v-model="patientData.address"
                 label="Address"
                 outlined
                 type="textarea"
                 :rules="[val => !!val || 'Address is required']"
-              /&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
+              />
+            </div>
+          </div>
 
-          &lt;div class="row q-col-gutter-md justify-end"&gt;
-            &lt;div class="col-auto"&gt;
-              &lt;q-btn
+          <div class="row q-col-gutter-md justify-end">
+            <div class="col-auto">
+              <q-btn
                 label="Generate Card"
                 type="submit"
                 color="primary"
                 :loading="loading"
-              /&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/q-form&gt;
-      &lt;/q-card-section&gt;
+              />
+            </div>
+          </div>
+        </q-form>
+      </q-card-section>
 
-      &lt;q-dialog v-model="showQRCode"&gt;
-        &lt;q-card style="min-width: 350px"&gt;
-          &lt;q-card-section class="row items-center q-pb-none"&gt;
-            &lt;div class="text-h6"&gt;Patient Health Card&lt;/div&gt;
-            &lt;q-space /&gt;
-            &lt;q-btn icon="close" flat round dense v-close-popup /&gt;
-          &lt;/q-card-section&gt;
+      <q-dialog v-model="showQRCode">
+        <q-card style="min-width: 350px">
+          <q-card-section class="row items-center q-pb-none">
+            <div class="text-h6">Patient Health Card</div>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
 
-          &lt;q-card-section class="q-pt-none"&gt;
-            &lt;div class="text-center"&gt;
-              &lt;qrcode-vue :value="qrCodeData" :size="200" level="H" /&gt;
-            &lt;/div&gt;
-            &lt;div class="text-center q-mt-md"&gt;
-              &lt;p&gt;{{ patientData.firstName }} {{ patientData.lastName }}&lt;/p&gt;
-              &lt;p class="text-caption"&gt;Patient ID: {{ patientData.id }}&lt;/p&gt;
-            &lt;/div&gt;
-          &lt;/q-card-section&gt;
+          <q-card-section class="q-pt-none">
+            <div class="text-center">
+              <qrcode-vue :value="qrCodeData" :size="200" level="H" />
+            </div>
+            <div class="text-center q-mt-md">
+              <p>{{ patientData.firstName }} {{ patientData.lastName }}</p>
+              <p class="text-caption">Patient ID: {{ patientData.id }}</p>
+            </div>
+          </q-card-section>
 
-          &lt;q-card-actions align="right"&gt;
-            &lt;q-btn flat label="Print" color="primary" @click="printQRCode" /&gt;
-            &lt;q-btn flat label="Download" color="primary" @click="downloadQRCode" /&gt;
-          &lt;/q-card-actions&gt;
-        &lt;/q-card&gt;
-      &lt;/q-dialog&gt;
-    &lt;/q-card&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
+          <q-card-actions align="right">
+            <q-btn flat label="Print" color="primary" @click="printQRCode" />
+            <q-btn flat label="Download" color="primary" @click="downloadQRCode" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </q-card>
+  </div>
+</template>
 
-&lt;script lang="ts" setup&gt;
+<script lang="ts" setup>
 import { ref } from 'vue'
-import QrcodeVue from 'qrcode-vue'
+import QrcodeVue from 'qrcode.vue'
 import { useQuasar } from 'quasar'
-import { usePatientStore } from 'stores/patient-store'
+import { usePatientStore } from 'src/stores/patient-store'
 
 const $q = useQuasar()
 const patientStore = usePatientStore()
@@ -120,7 +120,7 @@ interface PatientData {
   address: string
 }
 
-const patientData = ref&lt;PatientData&gt;({
+const patientData = ref<PatientData>({
   firstName: '',
   lastName: '',
   dateOfBirth: '',
@@ -130,21 +130,23 @@ const patientData = ref&lt;PatientData&gt;({
 
 const qrCodeData = ref('')
 
-const generatePatientId = () => {
-  // Generate a unique patient ID (implement your logic here)
-  return 'PT' + Date.now().toString(36).toUpperCase()
-}
-
-const onSubmit = async () => {
+const onSubmit = () => {
   loading.value = true
   try {
-    const newPatient = await patientStore.addPatient({
+    // Create a new patient object
+    const newPatient = {
+      id: crypto.randomUUID(),
       firstName: patientData.value.firstName,
       lastName: patientData.value.lastName,
       dateOfBirth: patientData.value.dateOfBirth,
       phone: patientData.value.phone,
-      address: patientData.value.address
-    })
+      address: patientData.value.address,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }
+
+    // Add the patient to the store
+    patientStore.addPatient(newPatient)
 
     // Create QR code data with patient ID
     qrCodeData.value = JSON.stringify({
@@ -160,7 +162,8 @@ const onSubmit = async () => {
       type: 'positive',
       message: 'Patient registration successful'
     })
-  } catch (error) {
+  } catch (err: unknown) {
+    console.error('Failed to register patient:', err)
     $q.notify({
       type: 'negative',
       message: 'Failed to register patient'
@@ -171,19 +174,33 @@ const onSubmit = async () => {
 }
 
 const printQRCode = () => {
-  // Implement print functionality
   window.print()
 }
 
 const downloadQRCode = () => {
-  // Implement download functionality
-  const link = document.createElement('a')
-  // Create canvas or use existing QR code element to generate image
-  // Set link href and trigger download
-}
-&lt;/script&gt;
+  // Find the QR code canvas element
+  const canvas = document.querySelector('canvas')
+  if (!canvas) {
+    $q.notify({
+      type: 'negative',
+      message: 'Could not find QR code to download'
+    })
+    return
+  }
 
-&lt;style lang="scss" scoped&gt;
+  // Create download link
+  const link = document.createElement('a')
+  link.download = `patient-card-${patientData.value.firstName}-${patientData.value.lastName}.png`
+  link.href = canvas.toDataURL('image/png')
+
+  // Trigger download
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+</script>
+
+<style lang="scss" scoped>
 .patient-card-registration {
   max-width: 800px;
   margin: 0 auto;
@@ -198,4 +215,4 @@ const downloadQRCode = () => {
     position: static !important;
   }
 }
-&lt;/style&gt;
+</style>
