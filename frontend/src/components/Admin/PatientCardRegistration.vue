@@ -37,6 +37,7 @@
               />
             </div>
             <div class="col-12 col-md-6">
+              const nfcWriteStatus = ref('')
               <q-input
                 v-model="patientData.phone"
                 label="Phone Number"
@@ -66,6 +67,7 @@
                 type="submit"
                 color="primary"
                 :loading="loading"
+                  writeToNFC(newPatient)
               />
             </div>
           </div>
@@ -82,6 +84,36 @@
 
           <q-card-section class="q-pt-none">
             <div class="text-center">
+              /**
+               * Write patient data to NFC card
+               */
+              async function writeToNFC(patient: any) {
+                try {
+                  nfcWriteStatus.value = 'Waiting for NFC tag...'
+                  // Prepare data to write
+                  const payload = JSON.stringify({
+                    id: patient.id,
+                    firstName: patient.firstName,
+                    lastName: patient.lastName,
+                    dateOfBirth: patient.dateOfBirth,
+                    phone: patient.phone,
+                    address: patient.address
+                  })
+                  // Write to NFC tag
+                  // @ts-ignore
+                  await NFC.write({
+                    messages: [
+                      { type: 'text', data: payload }
+                    ]
+                  })
+                  nfcWriteStatus.value = 'NFC card written successfully!'
+                  $q.notify({ type: 'positive', message: 'NFC card written successfully!' })
+                } catch (error: any) {
+                  nfcWriteStatus.value = 'Failed to write NFC card.'
+                  $q.notify({ type: 'negative', message: 'Failed to write NFC card.' })
+                  console.error('NFC write error:', error)
+                }
+              }
               <qrcode-vue :value="qrCodeData" :size="200" level="H" />
             </div>
             <div class="text-center q-mt-md">
