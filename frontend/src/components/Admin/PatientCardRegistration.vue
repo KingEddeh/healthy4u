@@ -37,7 +37,6 @@
               />
             </div>
             <div class="col-12 col-md-6">
-              const nfcWriteStatus = ref('')
               <q-input
                 v-model="patientData.phone"
                 label="Phone Number"
@@ -67,7 +66,6 @@
                 type="submit"
                 color="primary"
                 :loading="loading"
-                  writeToNFC(newPatient)
               />
             </div>
           </div>
@@ -84,36 +82,6 @@
 
           <q-card-section class="q-pt-none">
             <div class="text-center">
-              /**
-               * Write patient data to NFC card
-               */
-              async function writeToNFC(patient: any) {
-                try {
-                  nfcWriteStatus.value = 'Waiting for NFC tag...'
-                  // Prepare data to write
-                  const payload = JSON.stringify({
-                    id: patient.id,
-                    firstName: patient.firstName,
-                    lastName: patient.lastName,
-                    dateOfBirth: patient.dateOfBirth,
-                    phone: patient.phone,
-                    address: patient.address
-                  })
-                  // Write to NFC tag
-                  // @ts-ignore
-                  await NFC.write({
-                    messages: [
-                      { type: 'text', data: payload }
-                    ]
-                  })
-                  nfcWriteStatus.value = 'NFC card written successfully!'
-                  $q.notify({ type: 'positive', message: 'NFC card written successfully!' })
-                } catch (error: any) {
-                  nfcWriteStatus.value = 'Failed to write NFC card.'
-                  $q.notify({ type: 'negative', message: 'Failed to write NFC card.' })
-                  console.error('NFC write error:', error)
-                }
-              }
               <qrcode-vue :value="qrCodeData" :size="200" level="H" />
             </div>
             <div class="text-center q-mt-md">
@@ -133,23 +101,28 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import QrcodeVue from 'qrcode.vue'
-import { useQuasar } from 'quasar'
-import { usePatientStore } from 'src/stores/patient-store'
+import { ref } from 'vue';
+import QrcodeVue from 'qrcode.vue';
+import { useQuasar } from 'quasar';
+import { usePatientStore } from 'src/stores/patient-store';
 
-const $q = useQuasar()
-const patientStore = usePatientStore()
-const loading = ref(false)
-const showQRCode = ref(false)
+// Import NFC plugin (Capacitor)
+// @ts-expect-error: Capacitor NFC plugin lacks TypeScript definitions
+import { NFC } from '@trentrand/capacitor-nfc';
+
+const $q = useQuasar();
+const patientStore = usePatientStore();
+const loading = ref(false);
+const showQRCode = ref(false);
+const nfcWriteStatus = ref('');
 
 interface PatientData {
-  id?: string
-  firstName: string
-  lastName: string
-  dateOfBirth: string
-  phone: string
-  address: string
+  id?: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  phone: string;
+  address: string;
 }
 
 const patientData = ref<PatientData>({
@@ -158,12 +131,38 @@ const patientData = ref<PatientData>({
   dateOfBirth: '',
   phone: '',
   address: ''
-})
+});
 
-const qrCodeData = ref('')
+const qrCodeData = ref('');
 
-const onSubmit = () => {
-  loading.value = true
+const writeToNFC = async (patient: PatientData) => {
+  try {
+    nfcWriteStatus.value = 'Waiting for NFC tag...';
+    // Prepare data to write
+    const payload = JSON.stringify({
+      id: patient.id,
+      firstName: patient.firstName,
+      lastName: patient.lastName,
+      dateOfBirth: patient.dateOfBirth,
+      phone: patient.phone,
+      address: patient.address
+    });
+
+    // Write to NFC tag
+    await NFC.write({
+      messages: [{ type: 'text', data: payload }]
+    });
+
+    nfcWriteStatus.value = 'NFC card written successfully!';
+    $q.notify({ type: 'positive', message: 'NFC card written successfully!' });
+  } catch {
+    nfcWriteStatus.value = 'Failed to write NFC card.';
+    $q.notify({ type: 'negative', message: 'Failed to write NFC card.' });
+  }
+};
+
+const onSubmit = async () => {
+  loading.value = true;
   try {
     // Create a new patient object
     const newPatient = {
@@ -175,61 +174,63 @@ const onSubmit = () => {
       address: patientData.value.address,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
-    }
+    };
 
     // Add the patient to the store
-    patientStore.addPatient(newPatient)
+    patientStore.addPatient(newPatient);
+
+    // Write patient data to NFC card
+    await writeToNFC(newPatient);
 
     // Create QR code data with patient ID
     qrCodeData.value = JSON.stringify({
       id: newPatient.id,
       firstName: newPatient.firstName,
       lastName: newPatient.lastName
-    })
+    });
 
     // Show QR code dialog
-    showQRCode.value = true
+    showQRCode.value = true;
 
     $q.notify({
       type: 'positive',
       message: 'Patient registration successful'
-    })
-  } catch (err: unknown) {
-    console.error('Failed to register patient:', err)
+    });
+  } catch {
     $q.notify({
       type: 'negative',
       message: 'Failed to register patient'
-    })
+    });
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const printQRCode = () => {
-  window.print()
-}
+  window.print();
+};
 
 const downloadQRCode = () => {
   // Find the QR code canvas element
-  const canvas = document.querySelector('canvas')
+  const canvas = document.querySelector('canvas');
   if (!canvas) {
     $q.notify({
       type: 'negative',
       message: 'Could not find QR code to download'
-    })
-    return
+    });
+    return;
   }
 
   // Create download link
-  const link = document.createElement('a')
-  link.download = `patient-card-${patientData.value.firstName}-${patientData.value.lastName}.png`
-  link.href = canvas.toDataURL('image/png')
+  const link = document.createElement('a');
+  link.download = `patient-card-${patientData.value.firstName}-${patientData.value.lastName}.png`;
+  link.href = canvas.toDataURL('image/png');
 
   // Trigger download
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
 </script>
 
 <style lang="scss" scoped>

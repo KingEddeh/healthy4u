@@ -80,7 +80,7 @@ import PatientEMR from './PatientEMR.vue';
 import { usePatientStore } from 'stores/patient-store';
 
 // Import NFC plugin (Capacitor)
-// @ts-ignore
+// @ts-expect-error: Capacitor NFC plugin lacks TypeScript definitions
 import { NFC } from '@capawesome/capacitor-nfc';
 
 const $q = useQuasar();
@@ -147,7 +147,7 @@ const onQRDecoded = async (decodedString: string) => {
     } else {
       throw new Error('Patient not found in offline storage');
     }
-  } catch (error) {
+  } catch {
     $q.notify({
       type: 'negative',
       message: 'Invalid QR code or patient not found',
@@ -155,10 +155,10 @@ const onQRDecoded = async (decodedString: string) => {
   }
 };
 
-const onQRError = (error: Error) => {
+const onQRError = () => {
   $q.notify({
     type: 'negative',
-    message: 'Failed to scan QR code: ' + error.message,
+    message: 'Failed to scan QR code',
   });
 };
 
@@ -171,7 +171,7 @@ const scanNfcCard = async () => {
     // Read from NFC tag
     const result = await NFC.read();
     if (result && result.messages && result.messages.length > 0) {
-      const textMsg = result.messages.find((msg: any) => msg.type === 'text');
+      const textMsg = result.messages.find((msg: { type: string; data: string }) => msg.type === 'text');
       if (textMsg && textMsg.data) {
         const data = JSON.parse(textMsg.data);
         const patient = patientStore.getPatientById(data.id);
@@ -206,10 +206,9 @@ const scanNfcCard = async () => {
       nfcReadStatus.value = 'No NFC messages found.';
       $q.notify({ type: 'negative', message: 'No NFC messages found.' });
     }
-  } catch (error: any) {
+  } catch {
     nfcReadStatus.value = 'Failed to read NFC card.';
     $q.notify({ type: 'negative', message: 'Failed to read NFC card.' });
-    console.error('NFC read error:', error);
   }
 };
 
@@ -230,7 +229,7 @@ const checkInPatient = async () => {
 
     // Reset form
     patientInfo.value = null;
-  } catch (error) {
+  } catch {
     $q.notify({
       type: 'negative',
       message: 'Failed to check in patient',

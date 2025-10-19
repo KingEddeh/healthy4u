@@ -15,8 +15,9 @@
   },
   "dependencies": {
     "@capacitor/cli": "^7.4.3",
-    "@capacitor/core": "^7.4.3",
+    "@capacitor/core": "^6.2.1",
     "@quasar/extras": "^1.16.4",
+    "@trentrand/capacitor-nfc": "^0.3.0",
     "@types/qrcode": "^1.5.5",
     "axios": "^1.2.1",
     "date-fns": "^4.1.0",
