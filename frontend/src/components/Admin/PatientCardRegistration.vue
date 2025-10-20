@@ -107,8 +107,7 @@ import { useQuasar } from 'quasar';
 import { usePatientStore } from 'src/stores/patient-store';
 
 // Import NFC plugin (Capacitor)
-// @ts-expect-error: Capacitor NFC plugin lacks TypeScript definitions
-import { NFC } from '@trentrand/capacitor-nfc';
+import { Nfc } from '@trentrand/capacitor-nfc';
 
 const $q = useQuasar();
 const patientStore = usePatientStore();
@@ -148,9 +147,18 @@ const writeToNFC = async (patient: PatientData) => {
       address: patient.address
     });
 
-    // Write to NFC tag
-    await NFC.write({
-      messages: [{ type: 'text', data: payload }]
+    // Convert payload to ArrayBuffer and DataView
+    const encoder = new TextEncoder();
+    const buffer = encoder.encode(payload).buffer;
+    const dataView = new DataView(buffer);
+
+    // Write to NFC tag using correct API
+    await Nfc.write({
+      records: [{
+        recordType: 'text',
+        mediaType: 'text/plain',
+        data: dataView
+      }]
     });
 
     nfcWriteStatus.value = 'NFC card written successfully!';
