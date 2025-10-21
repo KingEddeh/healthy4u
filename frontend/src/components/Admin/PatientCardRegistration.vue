@@ -67,6 +67,15 @@
                 color="primary"
                 :loading="loading"
               />
+              </div>
+              <div class="col-auto">
+                <q-btn
+                  label="Write to NFC"
+                  color="secondary"
+                  :disable="!patientData.firstName || !patientData.lastName || !patientData.dateOfBirth || !patientData.phone || !patientData.address"
+                  @click="onWriteNFC"
+                  :loading="loading"
+                />
             </div>
           </div>
         </q-form>
@@ -209,6 +218,16 @@ const onSubmit = async () => {
       type: 'negative',
       message: 'Failed to register patient'
     });
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Expose NFC write handler for button click
+const onWriteNFC = async () => {
+  loading.value = true;
+  try {
+    await writeToNFC(patientData.value);
   } finally {
     loading.value = false;
   }
