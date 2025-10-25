@@ -64,11 +64,34 @@
                 @click="checkInPatient"
                 :loading="loading"
               />
+              <q-btn
+                color="primary"
+                icon="nfc"
+                label="Write to NFC Card"
+                class="q-ml-md"
+                @click="writeToNfcCard"
+              />
             </div>
           </q-card-section>
         </div>
       </q-card-section>
     </q-card>
+
+    <q-dialog v-model="showWriteModal" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">NFC Write Status</div>
+        </q-card-section>
+
+        <q-card-section>
+          <div class="text-body1">{{ nfcWriteStatus }}</div>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Close" color="primary" @click="showWriteModal = false" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -112,6 +135,8 @@ const showScanner = ref(false);
 const loading = ref(false);
 const patientInfo = ref<PatientInfo | null>(null); // Allow null values
 const nfcReadStatus = ref('');
+const showWriteModal = ref(false);
+const nfcWriteStatus = ref('');
 
 const startScanning = () => {
   showScanner.value = true;
@@ -209,6 +234,34 @@ const scanNfcCard = async () => {
   } catch {
     nfcReadStatus.value = 'Failed to read NFC card.';
     $q.notify({ type: 'negative', message: 'Failed to read NFC card.' });
+  }
+};
+
+const writeToNfcCard = async () => {
+  showWriteModal.value = true;
+  nfcWriteStatus.value = 'Waiting for NFC card...';
+
+  try {
+    const dataToWrite = {
+      id: patientInfo.value?.id,
+      firstName: patientInfo.value?.firstName,
+      lastName: patientInfo.value?.lastName,
+    };
+
+    await NFC.write({
+      messages: [
+        {
+          type: 'text',
+          data: JSON.stringify(dataToWrite),
+        },
+      ],
+    });
+
+    nfcWriteStatus.value = 'NFC card written successfully!';
+    $q.notify({ type: 'positive', message: 'NFC card written successfully!' });
+  } catch {
+    nfcWriteStatus.value = 'Failed to write NFC card.';
+    $q.notify({ type: 'negative', message: 'Failed to write NFC card.' });
   }
 };
 
