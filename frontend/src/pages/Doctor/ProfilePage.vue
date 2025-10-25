@@ -7,7 +7,7 @@
           <q-card-section>
             <div class="row items-center q-gutter-md">
               <q-avatar size="100px">
-                <img src="https://cdn.quasar.dev/img/avatar.png" alt="Doctor's profile picture">
+                <!-- Removed external image reference -->
               </q-avatar>
               <div class="column">
                 <div class="text-h5">Dr. {{ doctorProfile.name }}</div>
