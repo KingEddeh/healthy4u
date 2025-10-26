@@ -6,7 +6,7 @@
           <img src="../assets/logo.jpg" alt="CuraLink Logo" />
         </q-avatar>
         <q-toolbar-title class="text-weight-bold text-dark" style="font-size: xx-large;">
-          <span style="font-family: 'Zain', sans-serif; font-weight: 900; color: black;">Sigura</span><span class="text-primary " style="font-family: 'Zain', sans-serif; font-weight: 900;">Doc</span>
+          <span style="font-family: 'Zain', sans-serif; font-weight: 900;" class="text-accent">Sigura</span><span class="text-secondary" style="font-family: 'Zain', sans-serif; font-weight: 900;">Doc</span>
         </q-toolbar-title>
         <div class="row q-gutter-sm">
           <q-btn flat round dense color="white" icon="notifications">
