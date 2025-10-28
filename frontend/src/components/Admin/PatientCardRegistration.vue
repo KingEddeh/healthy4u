@@ -105,6 +105,21 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
+
+      <div class="row q-col-gutter-md justify-center">
+        <div class="col-auto">
+          <q-btn label="Scan NFC" color="primary" @click="scanNFC" />
+        </div>
+      </div>
+
+      <div v-if="nfcData" class="q-mt-md">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6">Scanned NFC Data</div>
+            <p>{{ nfcData }}</p>
+          </q-card-section>
+        </q-card>
+      </div>
     </q-card>
   </div>
 </template>
@@ -123,6 +138,7 @@ const patientStore = usePatientStore();
 const loading = ref(false);
 const showQRCode = ref(false);
 const nfcWriteStatus = ref('');
+const nfcData = ref('');
 
 interface PatientData {
   id?: string;
@@ -257,6 +273,80 @@ const downloadQRCode = () => {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+};
+
+const scanNFC = async () => {
+  if (!('NDEFReader' in window)) {
+    $q.notify({
+      type: 'warning',
+      message: 'NFC is not supported on this device or browser.'
+    });
+    return;
+  }
+
+  try {
+    const reader = new NDEFReader();
+    await reader.scan();
+
+    // Add null/undefined check for records
+    reader.onreading = (event) => {
+      const records = event.message.records;
+      if (records && records.length > 0) {
+        const firstRecord = records[0];
+        if (firstRecord && firstRecord.data) {
+          const text = new TextDecoder().decode(firstRecord.data);
+          nfcData.value = text;
+          $q.notify({
+            type: 'positive',
+            message: 'NFC tag scanned successfully!'
+          });
+        } else {
+          $q.notify({
+            type: 'warning',
+            message: 'No data found on the NFC tag.'
+          });
+        }
+      } else {
+        $q.notify({
+          type: 'warning',
+          message: 'No records found on the NFC tag.'
+        });
+      }
+    };
+  } catch (error) {
+    $q.notify({
+      type: 'negative',
+      message: 'Failed to scan NFC tag. Please try again.'
+    });
+    console.error('NFC Scan Error:', error);
+  }
+};
+
+// TypeScript declaration for Web NFC API
+interface NDEFRecord {
+  recordType: string;
+  mediaType?: string;
+  id?: string;
+  data?: ArrayBuffer;
+}
+
+interface NDEFMessage {
+  records: NDEFRecord[];
+}
+
+interface NDEFReadingEvent extends Event {
+  message: NDEFMessage;
+}
+
+interface NDEFReader {
+  scan(): Promise<void>;
+  write(message: NDEFMessage): Promise<void>;
+  onreading: ((event: NDEFReadingEvent) => void) | null;
+}
+
+declare const NDEFReader: {
+  prototype: NDEFReader;
+  new (): NDEFReader;
 };
 </script>
 
